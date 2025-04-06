@@ -6,7 +6,7 @@
 /*   By: rdelicad <rdelicad@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 11:59:10 by rdelicad          #+#    #+#             */
-/*   Updated: 2025/04/06 18:56:39 by rdelicad         ###   ########.fr       */
+/*   Updated: 2025/04/06 19:09:23 by rdelicad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,16 @@ static int  is_valid_ip(const char *ip)
 static int  is_valid_mac(const char *mac)
 {
     char **split_mac = ft_split(mac, ':');
+    if (!split_mac) {
+        report_error("Memory allocation failed.");
+        return 0;
+    }
+    
     if (ft_strarrlen(split_mac) != 6) {
         ft_strarrfree(split_mac);
         return 0;
     }
+    
     for (int i = 0; i < 6; i++) {
         if (ft_strlen(split_mac[i]) != 2
             || !ft_is_hex(split_mac[i][0])
@@ -49,11 +55,11 @@ static int  is_valid_mac(const char *mac)
     return 1;
 }
 
-static int parse_args(int ac,char **av)
+static void parse_args(int ac,char **av)
 {
     if (ac != 5) {
         fprintf(stderr, "Usage: %s <source_ip> <source_mac> <target_ip> <target_mac>\n", av[0]);
-        return EXIT_FAILURE;
+        exit(EXIT_FAILURE);
     }
     
     char *source_ip = av[1];
@@ -73,11 +79,10 @@ static int parse_args(int ac,char **av)
     if (!is_valid_mac(target_mac)) {
         report_error("Invalid target MAC address format.");
     }
-    return EXIT_SUCCESS;
 }
 
 int main(int ac, char **av)
 {
     parse_args(ac, av);
-    return 0;
+    return EXIT_SUCCESS;
 }
