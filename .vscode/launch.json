@@ -1,0 +1,20 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug ft_malcolm",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/ft_malcolm",
+            "args": [
+                "ff:bb:ff:ff:ee:ff",
+            ],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": false,
+            "preLaunchTask": "build",
+            "MIMode": "lldb"
+        }
+    ]
+}

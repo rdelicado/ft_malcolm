@@ -1,0 +1,1 @@
+// Manejo de señales (Ctrl+C)
