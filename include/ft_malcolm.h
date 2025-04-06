@@ -1,6 +1,7 @@
 #ifndef FT_MALCOLM_H
 #define FT_MALCOLM_H
 
+#include "libft/includes/libft.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
