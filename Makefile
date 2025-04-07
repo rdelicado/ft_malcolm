@@ -17,9 +17,8 @@ LIBFT       = $(LIBFT_DIR)/libft.a
 # --- Sources and objects --- #
 SRC_FILES   = main.c \
             error_utils.c \
-#			arp_handler.c \
-            network_utils.c \
-            signal_handler.c
+            signal_handler.c \
+			arp_handler.c \
 
 SRC         = $(addprefix $(SRC_DIR), $(SRC_FILES))
 OBJ         = $(addprefix $(OBJ_DIR), $(SRC_FILES:.c=.o))

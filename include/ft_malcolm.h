@@ -2,11 +2,15 @@
 #define FT_MALCOLM_H
 
 #include "libft/includes/libft.h"
+#include <signal.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
 #include <arpa/inet.h>
+#include <sys/socket.h>
+#include <linux/if_packet.h>
+#include <net/ethernet.h>
 
 /*
  * Estructuras y definiciones generales
@@ -31,7 +35,7 @@ void get_network_interfaces(void);
 
 // Funciones para el manejo de señales (en signal_handler.c)
 void setup_signal_handler(void);
-void handle_signal(int signum);
+void signal_hadler(int sig);
 
 // Funciones de manejo y reporte de errores (en error_utils.c)
 void    report_error(const char *error_msg);

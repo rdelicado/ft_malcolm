@@ -1,0 +1,24 @@
+A continuación te sugiero algunos pasos para continuar y completar el proyecto:
+
+1. **Captura del ARP Request:**  
+   - Implementa la lógica para detectar el ARP request enviado en broadcast. Puedes usar funciones como recvfrom en un socket RAW o utilizar una librería como libpcap, siempre que sea permitido.
+   - Muestra mensajes informativos (por ejemplo, “An ARP request has been broadcast”) e imprime, si es posible, la dirección IP y la MAC de quien lo envió.
+
+2. **Envio del ARP Reply:**  
+   - Una vez detectado el ARP request para la IP fuente, construye un paquete ARP reply usando los datos ingresados (source IP/MAC y target IP/MAC).
+   - Asegúrate de rellenar correctamente los campos ARP de hardware, protocolo y direcciones.
+   - Utiliza sendto para enviar el paquete a la interfaz correcta.
+
+3. **Validación y seguridad:**  
+   - Verifica que la IP fuente (spoofeada) realmente pertenezca a la interfaz de la VM, ya que el proyecto indica que sólo se deben utilizar IPs propias.
+   - Maneja adecuadamente errores y casos inesperados (por ejemplo, si no se recibe ningún ARP request en un tiempo razonable).
+
+4. **Salida limpia del programa:**  
+   - Asegúrate de que, una vez enviado el ARP reply, el programa libere recursos y salga de forma limpia.
+   - Considera el manejo de la señal SIGINT (Ctrl+C) para garantizar una salida controlada.
+
+5. **Implementación de los Bonus (si ya tienes todo el obligatorio funcionando):**  
+   - Puedes mejorar el proyecto implementando la notación decimal para direcciones IPv4, resolución de nombres, o un modo verbose para mostrar la información del paquete ARP.
+   - Estos bonus serán evaluados únicamente si el obligatorio es perfecto, así que asegúrate de que la parte principal esté completamente funcional.
+
+Estos pasos te ayudarán a pasar de la parte de parseo y validación de argumentos hacia la lógica de red real que constituye el “spoofing” y ataque Man In The Middle. ¡Sigue así y buena suerte con el proyecto!
