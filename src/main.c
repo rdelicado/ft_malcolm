@@ -6,11 +6,9 @@
 /*   By: rdelicad <rdelicad@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 11:59:10 by rdelicad          #+#    #+#             */
-/*   Updated: 2025/04/06 19:09:23 by rdelicad         ###   ########.fr       */
+/*   Updated: 2025/04/07 16:39:22 by rdelicad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-// Función principal: manejo de argumentos, ciclo de vida del programa
 
 #include "ft_malcolm.h"
 
