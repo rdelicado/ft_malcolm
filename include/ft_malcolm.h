@@ -3,6 +3,7 @@
 
 #include "libft/includes/libft.h"
 #include <signal.h>
+#include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -11,6 +12,8 @@
 #include <sys/socket.h>
 #include <linux/if_packet.h>
 #include <net/ethernet.h>
+#include <net/if_arp.h>
+#include <netinet/if_ether.h>
 
 /*
  * Estructuras y definiciones generales

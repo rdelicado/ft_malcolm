@@ -6,7 +6,7 @@
 /*   By: rdelicad <rdelicad@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 11:59:10 by rdelicad          #+#    #+#             */
-/*   Updated: 2025/04/07 23:05:11 by rdelicad         ###   ########.fr       */
+/*   Updated: 2025/04/08 22:14:18 by rdelicad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,8 +83,6 @@ int main(int ac, char **av)
 {
     setup_signal_handler();
     parse_args(ac, av);
-    while(1) {
-        
-    }
+    init_socket();
     return EXIT_SUCCESS;
 }

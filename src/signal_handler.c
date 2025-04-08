@@ -6,11 +6,11 @@
 /*   By: rdelicad <rdelicad@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 22:44:55 by rdelicad          #+#    #+#             */
-/*   Updated: 2025/04/07 23:12:25 by rdelicad         ###   ########.fr       */
+/*   Updated: 2025/04/08 22:17:20 by rdelicad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <signal.h>
+#include "ft_malcolm.h"
 
 void signal_handler(int sig)
 {
