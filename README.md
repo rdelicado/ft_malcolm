@@ -42,3 +42,11 @@ El programa debe ejecutarse con los siguientes parámetros:
 - El uso de esta herramienta debe ser únicamente con fines educativos y en entornos controlados.
 
 ---
+
+ver tabla arp y borrarla
+```bash
+arp -n
+sudo ip neigh flush all # borra todas las entradas
+sudo ip neigh flush <ip a borrar> dev eth0 # borra un ip
+sudo ip neigh flush dev eth0 # limpiar cache de eth0
+````

@@ -1,1 +1,0 @@
-// Funciones auxiliares de red: inicialización de sockets, obtención de interfaces, etc.
