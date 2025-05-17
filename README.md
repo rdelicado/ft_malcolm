@@ -50,3 +50,10 @@ sudo ip neigh flush all # borra todas las entradas
 sudo ip neigh flush <ip a borrar> dev eth0 # borra un ip
 sudo ip neigh flush dev eth0 # limpiar cache de eth0
 ````
+
+En 42
+levantar red alpine
+sudo ip link set eth0 up
+sudo udhcpc -i eth0 -b
+
+sudo ./ft_malcolm 10.11.239.195  08:00:27:26:14:1b 10.11.239.196 08:00:27:cb:99:22
