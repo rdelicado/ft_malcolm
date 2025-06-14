@@ -20,9 +20,13 @@
  */
 
 /* Agrega aquí las estructuras necesarias */
-// typedef struct s_ejemplo {
-//     int campo;
-// } t_ejemplo;
+typedef struct s_args
+{
+    char *source_ip;
+    char *source_mac;
+    char *target_ip;
+    char *target_mac;
+} t_args;
 
 
 /*

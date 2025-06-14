@@ -60,21 +60,26 @@ static void parse_args(int ac,char **av)
         exit(EXIT_FAILURE);
     }
     
-    char *source_ip = av[1];
+    t_args  args;
+    args.source_ip = av[1];
+    args.source_mac = av[2];
+    args.target_ip = av[3];
+    args.target_mac = av[4];
+   /*  char *source_ip = av[1];
     char *source_mac = av[2];
     char *target_ip = av[3];
-    char *target_mac = av[4];
+    char *target_mac = av[4]; */
 
-    if (!is_valid_ip(source_ip)) {
+    if (!is_valid_ip(args.source_ip)) {
         report_error("Invalid source IP address format.");
     }
-    if (!is_valid_mac(source_mac)) {
+    if (!is_valid_mac(args.source_mac)) {
         report_error("Invalid source MAC address format.");
     }
-    if (!is_valid_ip(target_ip)) {
+    if (!is_valid_ip(args.target_ip)) {
         report_error("Invalid target IP address format.");
     }
-    if (!is_valid_mac(target_mac)) {
+    if (!is_valid_mac(args.target_mac)) {
         report_error("Invalid target MAC address format.");
     }
 }
