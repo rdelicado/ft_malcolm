@@ -45,8 +45,13 @@ El programa debe ejecutarse con los siguientes parámetros:
 
 ver tabla arp y borrarla
 ```bash
-arp -n
+arp -n # ver entradas
+sudo ip neigh # ver entradas IPv4 y IPv6
 sudo ip neigh flush all # borra todas las entradas
 sudo ip neigh flush <ip a borrar> dev eth0 # borra un ip
 sudo ip neigh flush dev eth0 # limpiar cache de eth0
 ````
+ft_malcolm 192.168.1.10 aa:bb:cc:dd:ee:ff 192.168.1.20 11:22:33:44:55:66
+
+MAC
+sudo ./ft_malcolm 192.168.18.19 08:00:27:c6:af:5d 192.168.18.23 08:00:27:8c:f5:51
