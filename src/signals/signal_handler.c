@@ -12,17 +12,13 @@
 
 #include "ft_malcolm.h"
 
+volatile sig_atomic_t g_stop = 0;
+
 void signal_handler(int sig)
 {
     if (sig == SIGINT) {
-        // Informar al usuario
-        printf(" Ctrl+C pressed. Exiting...\n");
-        
-        // Liberar recursos
-        // sockets abiertos, memoria, etc.
-        // liberar memoria
-        
-        exit(EXIT_SUCCESS);
+        printf("  Exiting...\n");
+        g_stop = 1;
     }
 }
 
@@ -30,13 +26,10 @@ void    setup_signal_handler()
 {
     struct sigaction sa;
     sa.sa_handler = signal_handler;
-    // Configurar flags
-    // Limpiamos la máscara, para que ninguna senal se bloquee durante el manejo
     sigemptyset(&sa.sa_mask);
 
-    //Asociamos el manejador a la senal SIGINT
     if (sigaction(SIGINT, &sa, NULL) == -1) {
-        perror("sigaction");
+        perror("Error setting up signal handler.\n");
         exit(EXIT_FAILURE);
     }
     

@@ -1,6 +1,6 @@
 #pragma once
 
-int init_socket(void);
+int create_socket(int sockfd);
 void get_network_interfaces(void);
 
 

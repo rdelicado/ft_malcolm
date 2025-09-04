@@ -1,38 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   network_utils.c                                    :+:      :+:    :+:   */
+/*   arp_handler.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rdelicad <rdelicad@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/08 22:12:54 by rdelicad          #+#    #+#             */
-/*   Updated: 2025/04/08 22:35:15 by rdelicad         ###   ########.fr       */
+/*   Created: 2025/04/07 23:11:47 by rdelicad          #+#    #+#             */
+/*   Updated: 2025/04/08 22:13:47 by rdelicad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #define _DEFAULT_SOURCE
 #include "ft_malcolm.h"
 
-static int  create_socket(int sockfd)
-{
-    sockfd = socket(AF_PACKET, SOCK_RAW, htons(ETH_P_ARP));
-    if (sockfd < 0) {
-        perror("Error creating socket.\n");
-        return 1;
-    }
-    return sockfd;
-}
+extern volatile sig_atomic_t g_stop;
 
-void receive_packet(int sockfd, unsigned char *buffer, size_t bufsize)
+static int receive_packet(int sockfd, unsigned char *buffer, size_t bufsize)
 {
     ssize_t packet_len = recvfrom(sockfd, buffer, bufsize, 0, NULL, NULL);
     if (packet_len < 0) {
-        perror("Error receiving packet.\n");
+        if (errno == EINTR)
+            return 0; // Interrupted by signal
+        printf("Error receiving packet: (code %d)\n", errno);
         close(sockfd);
+        return -1;
     }
+    return 1;
 }
 
-void print_arp_request(unsigned char *buffer)
+static void print_arp_request(unsigned char *buffer)
 {
     // El paquete ARP empieza después de la cabecera Ethernet (14 bytes)
     struct ether_arp *arp = (struct ether_arp *)(buffer + 14);
@@ -49,20 +45,22 @@ void print_arp_request(unsigned char *buffer)
     }
 }
 
-int init_socket()
+void listen_arp(int sockfd)
 {
-    int             sockfd;
     unsigned char   buffer[ETH_FRAME_LEN];
 
-    sockfd = create_socket(0);
     printf("listen ARP request...\n");
 
-    while (1) 
+    while (!g_stop) 
     {
-        receive_packet(sockfd, buffer, sizeof(buffer));
+        int status = receive_packet(sockfd, buffer, sizeof(buffer));
+        if (status == -1)
+            break; // Error occurred
+        if (status == 0)
+            continue; // Interrupted by signal, retry
         print_arp_request(buffer);
     }
 
     close(sockfd);
-    return 0;
+    printf("Socket closed. Bye!\n");
 }

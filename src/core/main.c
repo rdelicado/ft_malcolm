@@ -14,8 +14,11 @@
 
 int main(int ac, char **av)
 {
+    int sockfd;
+
     setup_signal_handler();
     parse_args(ac, av);
-    init_socket();
+    sockfd = create_socket(0);
+    listen_arp(sockfd);
     return EXIT_SUCCESS;
 }
