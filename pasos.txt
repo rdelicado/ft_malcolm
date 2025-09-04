@@ -22,3 +22,52 @@ A continuación te sugiero algunos pasos para continuar y completar el proyecto:
    - Estos bonus serán evaluados únicamente si el obligatorio es perfecto, así que asegúrate de que la parte principal esté completamente funcional.
 
 Estos pasos te ayudarán a pasar de la parte de parseo y validación de argumentos hacia la lógica de red real que constituye el “spoofing” y ataque Man In The Middle. ¡Sigue así y buena suerte con el proyecto!
+
+ft_malcolm/                           
+├── Makefile                          
+├── include/                          
+│   ├── ft_malcolm.h                  # Archivo principal que incluye todos los demás .h para facilitar el uso
+│   ├── types.h                       # Definiciones de estructuras y tipos de datos usados en el proyecto
+│   ├── parse.h                       # Declaraciones de funciones para analizar argumentos de entrada
+│   ├── arp.h                         # Declaraciones de funciones para manejar paquetes ARP
+│   ├── net.h                         # Declaraciones de funciones para redes y sockets
+│   ├── error.h                       # Declaraciones de funciones para manejar errores
+│   ├── signals.h                     # Declaraciones de funciones para señales del sistema (ej. Ctrl+C)
+│   └── libft/...                     # Carpeta con la biblioteca libft (funciones auxiliares)
+├── libft/                            
+├── src/                              
+│   ├── core/                         # Subcarpeta para la lógica central del programa
+│   │   ├── main.c                    # Archivo principal que inicia el programa
+│   │   └── run.c                     # Archivo opcional para la lógica principal de ejecución
+│   ├── parse/                        # Subcarpeta para analizar y validar entradas
+│   │   ├── args_parse.c              # Código para procesar los argumentos del programa
+│   │   ├── validate_ip.c             # Código para verificar direcciones IP
+│   │   └── validate_mac.c            # Código para verificar direcciones MAC
+│   ├── arp/                          # Subcarpeta para todo lo relacionado con ARP
+│   │   ├── arp_listen.c              # Código para esperar y detectar solicitudes ARP
+│   │   ├── arp_reply.c               # Código para enviar respuestas ARP falsas
+│   │   └── arp_packet.c              # Código para construir paquetes ARP
+│   ├── net/                          # Subcarpeta para funciones de red
+│   │   ├── socket_raw.c              # Código para crear conexiones de red de bajo nivel
+│   │   ├── interface.c               # Código para obtener información de la interfaz de red
+│   │   └── network_utils.c           # Código auxiliar para redes (puedes dividirlo en los anteriores)
+│   ├── signals/                      # Subcarpeta para manejar señales del sistema
+│   │   └── signals.c                 # Código para configurar y responder a señales como Ctrl+C
+│   └── utils/                        # Subcarpeta para utilidades generales
+│       ├── error.c                   # Código para mostrar y manejar errores
+│       ├── hex.c                     # Código para trabajar con números hexadecimales
+│       └── dump.c                    # Código opcional para mostrar información detallada (modo verbose)
+├── obj/                              
+└── README.md                         
+
+Carpeta raíz (ft_malcolm/): Es el "hogar" de todo el proyecto, donde viven todos los archivos.
+Makefile: Es como una receta que le dice a la computadora cómo preparar (compilar) el programa. Incluye pasos para limpiar, construir y probar.
+include/: Aquí van las "instrucciones" o definiciones que otros archivos necesitan. Es como un diccionario compartido que explica qué son las cosas (tipos de datos, funciones) sin repetir código.
+libft/: Una biblioteca externa con herramientas útiles, como una caja de herramientas prestada que usas para tareas comunes.
+src/: El corazón del proyecto, dividido en subcarpetas para no mezclar cosas. Cada subcarpeta agrupa tareas similares:
+core/: Lo básico para que el programa funcione, como el punto de inicio.
+parse/: Para revisar y entender lo que el usuario escribe al ejecutar el programa.
+arp/: Para manejar las comunicaciones especiales de red que usa el proyecto.
+net/: Para conectar con la red y obtener información necesaria.
+signals/: Para responder a interrupciones, como cuando el usuario presiona Ctrl+C.
+utils/: Herramientas pequeñas y útiles que se usan en varios lugares.

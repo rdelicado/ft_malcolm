@@ -3,7 +3,7 @@ MAKEFLAGS += --no-print-directory
 NAME        = ft_malcolm
 CC          = gcc
 CFLAGS      = -Wall -Wextra -Werror -g
-INCLUDES    = -Iinclude/ -Iinclude/libft/includes
+INCLUDES    = -Iinclude/ -Ilibft/includes
 LIBS        = # -lpcap (if additional libraries are needed)
 
 # --- Directorios --- #
@@ -11,18 +11,12 @@ SRC_DIR     = src/
 OBJ_DIR     = obj/
 
 # --- Libft library --- #
-LIBFT_DIR   = include/libft
+LIBFT_DIR   = libft
 LIBFT       = $(LIBFT_DIR)/libft.a
 
 # --- Sources and objects --- #
-SRC_FILES   = main.c \
-            error_utils.c \
-            signal_handler.c \
-			arp_handler.c \
-			network_utils.c
-
-SRC         = $(addprefix $(SRC_DIR), $(SRC_FILES))
-OBJ         = $(addprefix $(OBJ_DIR), $(SRC_FILES:.c=.o))
+SRC_FILES   = $(shell find $(SRC_DIR) -name "*.c")
+OBJ_FILES	= $(patsubst $(SRC_DIR)%.c,$(OBJ_DIR)%.o,$(SRC_FILES))
 
 # --- Colors (optional) --- #
 GREEN       = \033[0;32m
@@ -33,12 +27,13 @@ NC          = \033[0m
 # --- Rules --- #
 all: $(NAME)
 
-$(NAME): $(OBJ) $(LIBFT)
+$(NAME): $(OBJ_FILES) $(LIBFT)
 	@echo "$(GREEN)[✔] Enlazando objetos...$(NC)"
-	@$(CC) $(CFLAGS) $(OBJ) $(LIBFT) -o $@ $(LIBS)
+	@$(CC) $(CFLAGS) $(OBJ_FILES) $(LIBFT) -o $@ $(LIBS)
 	@echo "$(GREEN)[✔] $(NAME) compilado correctamente!$(NC)"
 
 $(OBJ_DIR)%.o: $(SRC_DIR)%.c | $(OBJ_DIR)
+	@mkdir -p $(dir $@)
 	@echo "$(BLUE)[⚙] Compilando: $<$(NC)"
 	@$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
