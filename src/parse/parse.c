@@ -32,29 +32,25 @@ static int  is_valid_mac(const char *mac)
     return 1;
 }
 
-void parse_args(int ac,char **av)
+t_args *parse_args(t_args *args, char **av)
 {
-    if (ac != 5) {
-        fprintf(stderr, "Usage: %s <source_ip> <source_mac> <target_ip> <target_mac>\n", av[0]);
-        exit(EXIT_FAILURE);
-    }
-    
-    t_args  args;
-    args.source_ip = av[1];
-    args.source_mac = av[2];
-    args.target_ip = av[3];
-    args.target_mac = av[4];
+    args->source_ip = av[1];
+    args->source_mac = av[2];
+    args->target_ip = av[3];
+    args->target_mac = av[4];
 
-    if (!is_valid_ip(args.source_ip)) {
+    if (!is_valid_ip(args->source_ip)) {
         report_error("Invalid source IP address format.");
     }
-    if (!is_valid_mac(args.source_mac)) {
+    if (!is_valid_mac(args->source_mac)) {
         report_error("Invalid source MAC address format.");
     }
-    if (!is_valid_ip(args.target_ip)) {
+    if (!is_valid_ip(args->target_ip)) {
         report_error("Invalid target IP address format.");
     }
-    if (!is_valid_mac(args.target_mac)) {
+    if (!is_valid_mac(args->target_mac)) {
         report_error("Invalid target MAC address format.");
     }
+
+    return args;
 }

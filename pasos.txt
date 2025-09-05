@@ -71,3 +71,54 @@ arp/: Para manejar las comunicaciones especiales de red que usa el proyecto.
 net/: Para conectar con la red y obtener información necesaria.
 signals/: Para responder a interrupciones, como cuando el usuario presiona Ctrl+C.
 utils/: Herramientas pequeñas y útiles que se usan en varios lugares.
+
+
+Problemas que veo en tu código actual:
+Los argumentos no se están guardando - en parse.c creas una variable local args que se pierde
+No estás detectando si el ARP request es para tu IP objetivo
+No tienes función para enviar ARP reply
+Pasos a seguir:
+1. Guardar los argumentos globalmente
+Modificar parse_args para que devuelva la estructura t_args
+Modificar main.c para guardar los argumentos y pasarlos a listen_arp
+2. Crear función para enviar ARP reply
+Agregar archivo arp_request.c (aunque mejor sería arp_reply.c)
+Implementar función que construya y envíe el paquete ARP reply
+3. Modificar arp_listen.c
+Cambiar print_arp_request para que compare si la IP solicitada es tu source_ip
+Si coincide, llamar a la función de envío de ARP reply
+Salir del programa después de enviar la respuesta
+4. Agregar funciones auxiliares
+Función para convertir MAC string a bytes
+Función para obtener índice de interfaz de red
+
+En los argumentos del programa:
+
+source_ip = IP que quieres suplantar
+source_mac = MAC falsa que quieres asociar con esa IP
+target_ip = IP de la víctima (quien recibirá la respuesta falsa)
+target_mac = MAC de la víctima
+En el flujo del ataque:
+
+Alguien (puede ser el target u otra máquina) pregunta: "¿Quién tiene source_ip?"
+Tu programa responde: "Yo tengo source_ip, mi MAC es source_mac" (mintiendo)
+Esta respuesta se envía específicamente al target_ip
+
+En los argumentos del programa:
+
+source_ip = IP que quieres SUPLANTAR (no es tu IP real)
+target_ip = IP de la VÍCTIMA (quien recibirá la respuesta falsa)
+El flujo del ataque es:
+Alguien en la red pregunta: "¿Quién tiene source_ip?"
+Tu programa responde: "Yo tengo source_ip, mi MAC es source_mac" (MENTIRA)
+Esta respuesta se envía a: target_ip (la víctima)
+
+jemplo con tus parámetros:
+source_ip = 192.168.1.131 (IP que vas a suplantar)
+target_ip = 192.168.1.132 (víctima que recibirá tu respuesta falsa)
+Por eso comparas con source_ip:
+Cuando alguien pregunta "¿Quién tiene 192.168.1.131?", tu programa dice "Yo la tengo" y envía esa respuesta específicamente a 192.168.1.132.
+
+El objetivo del ataque:
+Que la máquina 192.168.1.132 piense que la IP 192.168.1.131 tiene una MAC falsa (la tuya), interceptando así el tráfico destinado a 192.168.1.131.
+

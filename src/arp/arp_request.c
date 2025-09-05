@@ -56,9 +56,9 @@ int main(int ac, char **av)
 
     
     // IP origen (192.168.1.100)
-    unsigned char src_ip[4] = {192,168,18,28};
+    unsigned char src_ip[4] = {192,168,1,132};
     // IP destino (192.168.1.1)
-    unsigned char target_ip[4] = {192,168,18,31};
+    unsigned char target_ip[4] = {192,168,1,131};
 
     // Construir Ethernet header
     struct eth_header *eth = (struct eth_header *) packet;

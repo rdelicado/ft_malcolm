@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void    parse_args(int ac,char **av);
+t_args    *parse_args(t_args *args, char **av);
