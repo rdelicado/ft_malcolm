@@ -1,6 +1,7 @@
 #pragma once
 
 #include "types.h"
+#include <stdbool.h>
 
-void    listen_arp(int sockfd, t_args *args);
-int arp_send_request(const char *iface, const char *target_ip);
+bool    listen_arp(int sockfd, t_args *args);
+void    send_arp_replay(t_args *args);

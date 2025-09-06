@@ -6,7 +6,7 @@
 /*   By: rdelicad <rdelicad@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 11:59:10 by rdelicad          #+#    #+#             */
-/*   Updated: 2025/09/05 18:18:45 by rdelicad         ###   ########.fr       */
+/*   Updated: 2025/09/06 06:57:03 by rdelicad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 int main(int ac, char **av)
 {
-    int sockfd;
-    t_args args;
+    int             sockfd;
+    t_args          args;
 
     if (ac != 5) {
         printf("Usage: %s <source_ip> <source_mac> <target_ip> <target_mac>\n", av[0]);
@@ -34,6 +34,7 @@ int main(int ac, char **av)
     setup_signal_handler();
     parse_args(&args, av);
     sockfd = create_socket(0);
-    listen_arp(sockfd, &args);
+    if (listen_arp(sockfd, &args))
+        send_arp_replay(&args);
     return EXIT_SUCCESS;
 }

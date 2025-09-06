@@ -9,6 +9,14 @@ typedef struct s_args
     char        *target_mac;
 }               t_args;
 
+typedef struct s_converted_args
+{
+    uint8_t     source_ip[4];
+    uint8_t     source_mac[6];
+    uint8_t     target_ip[4];
+    uint8_t     target_mac[6];
+}               t_converted_args;
+
 typedef struct s_eth_header
 {
     uint8_t     dest_mac[6];

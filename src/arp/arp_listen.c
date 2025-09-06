@@ -6,7 +6,7 @@
 /*   By: rdelicad <rdelicad@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 23:11:47 by rdelicad          #+#    #+#             */
-/*   Updated: 2025/09/05 17:45:16 by rdelicad         ###   ########.fr       */
+/*   Updated: 2025/09/06 06:31:14 by rdelicad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static int receive_packet(int sockfd, unsigned char *buffer, size_t bufsize)
     return 1;
 }
 
-static void print_arp_request(t_args *args, unsigned char *buffer)
+static bool print_arp_request(t_args *args, unsigned char *buffer)
 {
     // El paquete ARP empieza después de la cabecera Ethernet (14 bytes)
     struct ether_arp *arp = (struct ether_arp *)(buffer + 14);
@@ -42,20 +42,15 @@ static void print_arp_request(t_args *args, unsigned char *buffer)
 
         printf("ARP Request: Who has %s? I am %s\n", target_ip, sender_ip);
         
-        if (strcmp(target_ip, args->source_ip) == 0) {
-            printf("An ARP request has been boradcast.\n");
-            printf("IP address of request: %s\n", sender_ip);
-            printf("Sending ARP reply...\n");
-            // Aquí deberías llamar a tu función send_arp_reply
-            // if (send_arp_reply(sockfd, args, buffer) == 0) {
-            //     g_stop = 1; // Para salir del loop principal
-            // }
-            //g_stop = 1;
+        if (strcmp(sender_ip, args->target_ip) == 0 && strcmp(target_ip, args->source_ip) == 0) {
+            printf("Target is asking for the sppofed IP! Sending ARP Reply...\n");
+            return true; // Senal para lanzar el ataque
         }
     }
+    return false;
 }
 
-void listen_arp(int sockfd, t_args *args)
+bool listen_arp(int sockfd, t_args *args)
 {
     unsigned char   buffer[ETH_FRAME_LEN];
     (void)args;
@@ -69,9 +64,11 @@ void listen_arp(int sockfd, t_args *args)
             break; // Error occurred
         if (status == 0)
             continue; // Interrupted by signal, retry
-        print_arp_request(args, buffer);
+        if (print_arp_request(args, buffer))
+            return true; // lanzamos el ataque
     }
 
     close(sockfd);
     printf("Socket closed. Bye!\n");
+    return false;
 }
