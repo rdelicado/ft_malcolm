@@ -32,29 +32,82 @@ static int  is_valid_mac(const char *mac)
     return 1;
 }
 
+void    validate_mac(t_args *args)
+{
+    if (!is_valid_mac(args->source_mac)) {
+        printf("ft_malcolm: invalid mac address: (%s)\n", args->source_mac);
+        exit(EXIT_FAILURE);
+    }
+
+    if (!is_valid_mac(args->target_mac)) {
+        printf("ft_malcolm: Invalid target MAC address format: (%s)\n", args->target_mac);
+        exit(EXIT_FAILURE);
+    }
+}
+
+void validate_ip(t_args *args)
+{
+    // Valida source_ip
+    if (is_decimal_format(args->source_ip)) {
+        if (!validate_decimal_ip(args->source_ip)) {
+            printf("ft_malcolm: unknown host or invalid IP address: (%s).\n", args->source_ip);
+            exit(EXIT_FAILURE);
+        }
+    } else {
+        if (!is_valid_ip(args->source_ip)) {
+            printf("ft_malcolm: unknown host or invalid IP address: (%s).\n", args->source_ip);
+            exit(EXIT_FAILURE);
+        }
+    }
+
+    // Valida target_ip
+    if (is_decimal_format(args->target_ip)) {
+        if (!validate_decimal_ip(args->target_ip)) {
+            printf("ft_malcolm: unknown host or invalid IP address: (%s).\n", args->target_ip);
+            exit(EXIT_FAILURE);
+        }
+    } else {
+        if (!is_valid_ip(args->target_ip)) {
+            printf("ft_malcolm: unknown host or invalid IP address: (%s).\n", args->target_ip);
+            exit(EXIT_FAILURE);
+        }
+    }
+}
+
+bool    is_decimal_format(const char *ip)
+{
+    if (ft_strchr(ip, '.'))
+        return true;
+    return false;
+}
+
+bool    validate_decimal_ip(const char *ip)
+{
+    unsigned long value = 0;
+    int len = ft_strlen(ip);
+
+    if (len == 0 || len > 10)
+        return false;
+
+    for (int i = 0; ip[i]; i++) {
+        if (!ft_isdigit(ip[i]))
+            return false;
+        value = value * 10 + (ip[i] - '0');
+        if (value > 4294967295UL)
+            return false;
+    }
+    return true;
+}
+
 t_args *parse_args(t_args *args, char **av)
 {
     args->source_ip = av[1];
     args->source_mac = av[2];
     args->target_ip = av[3];
     args->target_mac = av[4];
-
-    if (!is_valid_ip(args->source_ip)) {
-        printf("ft_malcolm: unknown host or invalid IP address: (%s).\n", args->source_ip);
-        exit(EXIT_FAILURE);
-    }
-    if (!is_valid_mac(args->source_mac)) {
-        printf("ft_malcolm: invalid mac address: (%s)\n", args->source_mac);
-        exit(EXIT_FAILURE);
-    }
-    if (!is_valid_ip(args->target_ip)) {
-        printf("ft_malcolm: Invalid target IP address format: (%s)\n", args->target_ip);
-        exit(EXIT_FAILURE);
-    }
-    if (!is_valid_mac(args->target_mac)) {
-        printf("ft_malcolm: Invalid target MAC address format: (%s)\n", args->target_mac);
-        exit(EXIT_FAILURE);
-    }
+    
+    validate_mac(args);
+    validate_ip(args);
 
     return args;
 }
