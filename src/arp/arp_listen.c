@@ -6,7 +6,7 @@
 /*   By: rdelicad <rdelicad@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 23:11:47 by rdelicad          #+#    #+#             */
-/*   Updated: 2025/09/06 10:04:38 by rdelicad         ###   ########.fr       */
+/*   Updated: 2025/09/06 13:47:43 by rdelicad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static bool print_arp_request(t_args *args, unsigned char *buffer)
 
         printf("ARP Request: Who has %s? I am %s\n", target_ip, sender_ip);
         
-        if (strcmp(target_ip, args->source_ip) == 0) {
+        if (ft_strcmp(target_ip, args->source_ip) == 0) {
             printf("An ARP request has been broadcast.\n");
             printf("mac address of request: %02x:%02x:%02x:%02x:%02x:%02x\n", 
                 arp->arp_sha[0], arp->arp_sha[1], arp->arp_sha[2],
