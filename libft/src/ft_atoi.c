@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rdelicad <rdelicad@student.42.com>         +#+  +:+       +#+        */
+/*   By: rdelicad <rdelicad@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 13:15:39 by rdelicad          #+#    #+#             */
-/*   Updated: 2023/04/26 19:21:58 by rdelicad         ###   ########.fr       */
+/*   Updated: 2025/09/06 13:31:11 by rdelicad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ int	ft_atoi(const char *str)
 
 	sign = 1;
 	num = 0;
-	while (*str == ' ' || *str == '\t' || *str == '\r' || *str == '\v' \
-	|| *str == '\n' || *str == '\f')
+	while (*str == ' ' || *str == '\t' || *str == '\r'
+		|| *str == '\v' || *str == '\n' || *str == '\f')
 		str++;
 	if (*str == '-' || *str == '+')
 	{

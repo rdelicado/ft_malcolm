@@ -11,7 +11,7 @@ SRCS = \
     src/ft_atoi.c src/ft_calloc.c src/ft_strdup.c src/ft_substr.c src/ft_memmove.c\
     src/ft_strjoin.c src/ft_strtrim.c src/ft_strmapi.c src/ft_striteri.c src/ft_putchar_fd.c\
     src/ft_putstr_fd.c src/ft_putendl_fd.c src/ft_putnbr_fd.c src/ft_itoa.c src/ft_split.c\
-	src/ft_strarrlen.c src/ft_strarrfree.c src/ft_is_hex.c
+	src/ft_strarrlen.c src/ft_strarrfree.c src/ft_is_hex.c src/ft_strcmp.c
 
 OBJS = $(SRCS:src/%.c=obj/%.o)
 

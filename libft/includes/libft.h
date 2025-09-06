@@ -6,7 +6,7 @@
 /*   By: rdelicad <rdelicad@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 14:53:34 by rdelicad          #+#    #+#             */
-/*   Updated: 2025/04/06 18:47:38 by rdelicad         ###   ########.fr       */
+/*   Updated: 2025/09/06 13:45:56 by rdelicad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ char	**ft_split(char const *s, char c);
 size_t	ft_strarrlen(char **arr);
 void	ft_strarrfree(char **arr);
 int		ft_is_hex(const char c);
+int		ft_strcmp(const char *s1, const char *s2);
 
 /*
 ** Bonus

@@ -6,7 +6,7 @@
 /*   By: rdelicad <rdelicad@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 18:28:27 by rdelicad          #+#    #+#             */
-/*   Updated: 2025/04/06 18:47:22 by rdelicad         ###   ########.fr       */
+/*   Updated: 2025/09/06 13:42:20 by rdelicad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,10 @@
  */
 #include "libft.h"
 
-int ft_is_hex(const char c)
+int	ft_is_hex(const char c)
 {
-    if ((c >= '0' && c <= '9') || (c >= 'a' && c <= 'f') || (c >= 'A' && c <= 'F'))
-        return (1);
-    return (0);
+	if ((c >= '0' && c <= '9') || (c >= 'a' && c <= 'f')
+		|| (c >= 'A' && c <= 'F'))
+		return (1);
+	return (0);
 }
