@@ -27,7 +27,7 @@ static void convert_args(t_args *args, t_converted_args *conv)
 
 static void build_eth_header(t_eth_header *heth, t_converted_args *conv)
 {
-    ft_memcpy(heth->dest_mac, conv->target_ip, 6);
+    ft_memcpy(heth->dest_mac, conv->target_mac, 6);
     ft_memcpy(heth->src_mac, conv->source_mac, 6);
     heth->ether_type = htons(0x0806); // ARP en network byte order
 }
@@ -48,15 +48,38 @@ static void build_arp_header(t_arp_header *harp, t_converted_args *conv)
 
 }
 
-static void send_packet(t_eth_header *heth, t_arp_header *harp, t_converted_args *conv)
+static int send_packet(int sockfd, t_eth_header *heth, t_arp_header *harp, t_converted_args *conv)
 {
-    (void)heth;
-    (void)harp;
-    (void)conv;
-    printf("Paquete construido.\n");
+    unsigned char       packet[ETH_FRAME_LEN];
+    struct sockaddr_ll  sockaddr;
+    ssize_t             bytes_sent;
+    char                *iface;
+
+    // Detectar interface
+    iface = get_default_iface();
+
+    // Construir el paquete completo
+    ft_memcpy(packet, heth, sizeof(t_eth_header));
+    ft_memcpy(packet + sizeof(t_eth_header), harp, sizeof(t_arp_header));
+
+    // Configurar direccion de destino
+    ft_memset(&sockaddr, 0, sizeof(sockaddr));
+    sockaddr.sll_ifindex = if_nametoindex(iface); // Interfaz
+    sockaddr.sll_halen = ETH_ALEN;
+    ft_memcpy(sockaddr.sll_addr, conv->target_mac, 6);
+
+    // Enviar el paquete por el socket
+    bytes_sent = sendto(sockfd, packet, sizeof(t_eth_header) + sizeof(t_arp_header),
+                    0, (struct sockaddr*)&sockaddr, sizeof(sockaddr));
+    if (bytes_sent < 0) {
+        printf("Error sending ARP reply.\n");
+        return -1;
+    }
+    printf("Sent an ARP reply packet.\n");
+    return 0;
 }
 
-void    send_arp_replay(t_args *args)
+void    send_arp_replay(int sockfd, t_args *args)
 {
     t_eth_header        heth = {0};
     t_arp_header        harp = {0};
@@ -65,5 +88,5 @@ void    send_arp_replay(t_args *args)
     convert_args(args, &conv);
     build_eth_header(&heth, &conv);
     build_arp_header(&harp, &conv);
-    send_packet(&heth, &harp, &conv);
+    send_packet(sockfd, &heth, &harp, &conv);
 }

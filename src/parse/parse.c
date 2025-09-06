@@ -10,7 +10,7 @@ static int  is_valid_mac(const char *mac)
 {
     char **split_mac = ft_split(mac, ':');
     if (!split_mac) {
-        report_error("Memory allocation failed.");
+        printf("Memory allocation failed.");
         return 0;
     }
     
@@ -40,16 +40,20 @@ t_args *parse_args(t_args *args, char **av)
     args->target_mac = av[4];
 
     if (!is_valid_ip(args->source_ip)) {
-        report_error("Invalid source IP address format.");
+        printf("ft_malcolm: unknown host or invalid IP address: (%s).\n", args->source_ip);
+        exit(EXIT_FAILURE);
     }
     if (!is_valid_mac(args->source_mac)) {
-        report_error("Invalid source MAC address format.");
+        printf("ft_malcolm: invalid mac address: (%s)\n", args->source_mac);
+        exit(EXIT_FAILURE);
     }
     if (!is_valid_ip(args->target_ip)) {
-        report_error("Invalid target IP address format.");
+        printf("ft_malcolm: Invalid target IP address format: (%s)\n", args->target_ip);
+        exit(EXIT_FAILURE);
     }
     if (!is_valid_mac(args->target_mac)) {
-        report_error("Invalid target MAC address format.");
+        printf("ft_malcolm: Invalid target MAC address format: (%s)\n", args->target_mac);
+        exit(EXIT_FAILURE);
     }
 
     return args;

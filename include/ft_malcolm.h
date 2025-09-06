@@ -5,8 +5,8 @@
 #include "parse.h"
 #include "arp.h"
 #include "net.h"
-#include "error.h"
 #include "signals.h"
+#include "utils.h"
 
 #include "libft.h"
 
@@ -16,6 +16,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <net/if.h>
+#include <ifaddrs.h>
 #include <arpa/inet.h>
 #include <sys/socket.h>
 #include <linux/if_packet.h>

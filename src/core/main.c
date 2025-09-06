@@ -6,7 +6,7 @@
 /*   By: rdelicad <rdelicad@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 11:59:10 by rdelicad          #+#    #+#             */
-/*   Updated: 2025/09/06 06:57:03 by rdelicad         ###   ########.fr       */
+/*   Updated: 2025/09/06 10:53:59 by rdelicad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ int main(int ac, char **av)
 {
     int             sockfd;
     t_args          args;
+    char            *iface;
 
     if (ac != 5) {
         printf("Usage: %s <source_ip> <source_mac> <target_ip> <target_mac>\n", av[0]);
@@ -34,7 +35,12 @@ int main(int ac, char **av)
     setup_signal_handler();
     parse_args(&args, av);
     sockfd = create_socket(0);
+    iface = get_default_iface();
+    if (iface)
+        printf("Found available interface: %s\n", iface);
+    else
+        printf("Warning: No network intreface detected\n");
     if (listen_arp(sockfd, &args))
-        send_arp_replay(&args);
+        send_arp_replay(sockfd, &args);
     return EXIT_SUCCESS;
 }
