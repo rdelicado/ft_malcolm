@@ -1,5 +1,19 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rdelicad <rdelicad@gmail.com>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/09/07 10:46:06 by rdelicad          #+#    #+#             */
+/*   Updated: 2025/09/07 10:46:07 by rdelicad         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+
 #pragma once
 
 #include "types.h"
+#include <stdbool.h>
 
-t_args    *parse_args(t_args *args, char **av);
+t_args	*parse_args(t_args *args, char **av);

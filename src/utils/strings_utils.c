@@ -1,36 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signal_handler.c                                   :+:      :+:    :+:   */
+/*   strings_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rdelicad <rdelicad@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/07 22:44:55 by rdelicad          #+#    #+#             */
-/*   Updated: 2025/09/07 10:55:35 by rdelicad         ###   ########.fr       */
+/*   Created: 2025/09/07 10:54:19 by rdelicad          #+#    #+#             */
+/*   Updated: 2025/09/07 10:54:20 by rdelicad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+
 #include "ft_malcolm.h"
 
-volatile sig_atomic_t g_stop = 0;
-
-static void signal_handler(int sig)
+bool is_decimal_format(const char *ip)
 {
-    if (sig == SIGINT) {
-        printf("  Exiting...\n");
-        g_stop = 1;
+    // Solo decimal si todos los caracteres son dígitos
+    for (int i = 0; ip[i]; i++) {
+        if (!ft_isdigit(ip[i]))
+            return false;
     }
+    return true;
 }
 
-void    setup_signal_handler()
+unsigned long decimal_to_ip(const char *decimal_str)
 {
-    struct sigaction sa;
-    sa.sa_handler = signal_handler;
-    sigemptyset(&sa.sa_mask);
+    unsigned long value = 0;
 
-    if (sigaction(SIGINT, &sa, NULL) == -1) {
-        printf("Error setting up signal handler.\n");
-        exit(EXIT_FAILURE);
+    for (int i = 0; decimal_str[i]; i++) {
+        value = value * 10 + (decimal_str[i] - '0');
     }
-    
+    return value;
 }

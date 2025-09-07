@@ -1,29 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   arp_replay.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rdelicad <rdelicad@gmail.com>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/09/07 10:52:23 by rdelicad          #+#    #+#             */
+/*   Updated: 2025/09/07 10:52:24 by rdelicad         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+
 #include "ft_malcolm.h"
-
-static void convert_args(t_args *args, t_converted_args *conv)
-{
-    struct in_addr  addr;
-    unsigned int    mac_parts[6];
-
-    // Convertir IPs
-    inet_pton(AF_INET, args->source_ip, &addr);
-    ft_memcpy(conv->source_ip, &addr.s_addr, 4);
-    inet_pton(AF_INET, args->target_ip, &addr);
-    ft_memcpy(conv->target_ip, &addr.s_addr, 4);
-
-    // Convertir MACs
-    sscanf(args->source_mac, "%02x:%02x:%02x:%02x:%02x:%02x",
-           &mac_parts[0], &mac_parts[1], &mac_parts[2],
-           &mac_parts[3], &mac_parts[4], &mac_parts[5]);
-    for (int i = 0; i < 6; i++)
-        conv->source_mac[i] = (uint8_t)mac_parts[i];
-    
-    sscanf(args->target_mac, "%02x:%02x:%02x:%02x:%02x:%02x",
-           &mac_parts[0], &mac_parts[1], &mac_parts[2],
-           &mac_parts[3], &mac_parts[4], &mac_parts[5]);
-    for (int i = 0; i < 6; i++)
-        conv->target_mac[i] = (uint8_t)mac_parts[i];
-}
 
 static void build_eth_header(t_eth_header *heth, t_converted_args *conv)
 {
@@ -79,14 +67,12 @@ static int send_packet(int sockfd, t_eth_header *heth, t_arp_header *harp, t_con
     return 0;
 }
 
-void    send_arp_replay(int sockfd, t_args *args)
+void    send_arp_replay(int sockfd, t_converted_args *conv)
 {
     t_eth_header        heth = {0};
     t_arp_header        harp = {0};
-    t_converted_args    conv = {0};
 
-    convert_args(args, &conv);
-    build_eth_header(&heth, &conv);
-    build_arp_header(&harp, &conv);
-    send_packet(sockfd, &heth, &harp, &conv);
+    build_eth_header(&heth, conv);
+    build_arp_header(&harp, conv);
+    send_packet(sockfd, &heth, &harp, conv);
 }

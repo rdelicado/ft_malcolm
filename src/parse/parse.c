@@ -1,3 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rdelicad <rdelicad@gmail.com>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/09/07 10:52:57 by rdelicad          #+#    #+#             */
+/*   Updated: 2025/09/07 10:52:58 by rdelicad         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+
 #include "ft_malcolm.h"
 
 static int  is_valid_ip(const char *ip)
@@ -30,6 +43,24 @@ static int  is_valid_mac(const char *mac)
     }
     ft_strarrfree(split_mac);
     return 1;
+}
+
+bool    validate_decimal_ip(const char *ip)
+{
+    unsigned long value = 0;
+    int len = ft_strlen(ip);
+
+    if (len == 0 || len > 10)
+        return false;
+
+    for (int i = 0; ip[i]; i++) {
+        if (!ft_isdigit(ip[i]))
+            return false;
+        value = value * 10 + (ip[i] - '0');
+        if (value > 4294967295UL)
+            return false;
+    }
+    return true;
 }
 
 void    validate_mac(t_args *args)
@@ -74,31 +105,6 @@ void validate_ip(t_args *args)
     }
 }
 
-bool    is_decimal_format(const char *ip)
-{
-    if (ft_strchr(ip, '.'))
-        return true;
-    return false;
-}
-
-bool    validate_decimal_ip(const char *ip)
-{
-    unsigned long value = 0;
-    int len = ft_strlen(ip);
-
-    if (len == 0 || len > 10)
-        return false;
-
-    for (int i = 0; ip[i]; i++) {
-        if (!ft_isdigit(ip[i]))
-            return false;
-        value = value * 10 + (ip[i] - '0');
-        if (value > 4294967295UL)
-            return false;
-    }
-    return true;
-}
-
 t_args *parse_args(t_args *args, char **av)
 {
     args->source_ip = av[1];
@@ -108,6 +114,9 @@ t_args *parse_args(t_args *args, char **av)
     
     validate_mac(args);
     validate_ip(args);
+
+    printf("source ip: %s\n", args->source_ip);
+    printf("target ip: %s\n", args->target_ip);
 
     return args;
 }
