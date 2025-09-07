@@ -6,7 +6,7 @@
 /*   By: rdelicad <rdelicad@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/07 10:54:19 by rdelicad          #+#    #+#             */
-/*   Updated: 2025/09/07 10:54:20 by rdelicad         ###   ########.fr       */
+/*   Updated: 2025/09/07 11:45:13 by rdelicad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,9 @@
 
 bool is_decimal_format(const char *ip)
 {
+    if (!ip || *ip == '\0')
+        return false;
+
     // Solo decimal si todos los caracteres son dígitos
     for (int i = 0; ip[i]; i++) {
         if (!ft_isdigit(ip[i]))

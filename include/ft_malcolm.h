@@ -6,7 +6,7 @@
 /*   By: rdelicad <rdelicad@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/07 10:54:48 by rdelicad          #+#    #+#             */
-/*   Updated: 2025/09/07 10:54:49 by rdelicad         ###   ########.fr       */
+/*   Updated: 2025/09/07 13:08:55 by rdelicad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 #include "net.h"
 #include "signals.h"
 #include "utils.h"
+#include "verbose.h"
 
 #include "libft.h"
 

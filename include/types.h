@@ -6,13 +6,14 @@
 /*   By: rdelicad <rdelicad@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/07 10:56:09 by rdelicad          #+#    #+#             */
-/*   Updated: 2025/09/07 10:56:10 by rdelicad         ###   ########.fr       */
+/*   Updated: 2025/09/07 12:57:26 by rdelicad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #pragma once
 #include <stdint.h>
+#include <stdbool.h>
 
 typedef struct s_args
 {
@@ -20,6 +21,7 @@ typedef struct s_args
     char        *source_mac;
     char        *target_ip;
     char        *target_mac;
+    bool        verbose;
 }               t_args;
 
 typedef struct s_converted_args

@@ -6,7 +6,7 @@
 /*   By: rdelicad <rdelicad@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/07 10:52:23 by rdelicad          #+#    #+#             */
-/*   Updated: 2025/09/07 10:52:24 by rdelicad         ###   ########.fr       */
+/*   Updated: 2025/09/07 13:01:51 by rdelicad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,12 +67,15 @@ static int send_packet(int sockfd, t_eth_header *heth, t_arp_header *harp, t_con
     return 0;
 }
 
-void    send_arp_replay(int sockfd, t_converted_args *conv)
+void	send_arp_replay(int sockfd, t_converted_args *conv, bool verbose)
 {
-    t_eth_header        heth = {0};
-    t_arp_header        harp = {0};
+    t_eth_header	heth;
+    t_arp_header	harp;
 
+    ft_memset(&heth, 0, sizeof(heth));
+    ft_memset(&harp, 0, sizeof(harp));
     build_eth_header(&heth, conv);
     build_arp_header(&harp, conv);
+    print_send_details(conv, verbose);
     send_packet(sockfd, &heth, &harp, conv);
 }

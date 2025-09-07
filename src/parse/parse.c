@@ -6,7 +6,7 @@
 /*   By: rdelicad <rdelicad@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/07 10:52:57 by rdelicad          #+#    #+#             */
-/*   Updated: 2025/09/07 10:52:58 by rdelicad         ###   ########.fr       */
+/*   Updated: 2025/09/07 13:42:29 by rdelicad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,9 +114,6 @@ t_args *parse_args(t_args *args, char **av)
     
     validate_mac(args);
     validate_ip(args);
-
-    printf("source ip: %s\n", args->source_ip);
-    printf("target ip: %s\n", args->target_ip);
 
     return args;
 }

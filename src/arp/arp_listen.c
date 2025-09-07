@@ -6,7 +6,7 @@
 /*   By: rdelicad <rdelicad@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 23:11:47 by rdelicad          #+#    #+#             */
-/*   Updated: 2025/09/06 13:47:43 by rdelicad         ###   ########.fr       */
+/*   Updated: 2025/09/07 13:01:20 by rdelicad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,31 +28,31 @@ static int receive_packet(int sockfd, unsigned char *buffer, size_t bufsize)
     return 1;
 }
 
-static bool print_arp_request(t_args *args, unsigned char *buffer)
+static bool	print_arp_request(t_args *args, unsigned char *buffer)
 {
-    // El paquete ARP empieza después de la cabecera Ethernet (14 bytes)
-    struct ether_arp *arp = (struct ether_arp *)(buffer + 14);
-    char sender_ip[INET_ADDRSTRLEN];
-    char target_ip[INET_ADDRSTRLEN];
+    struct ether_arp	*arp;
+    char				sender_ip[INET_ADDRSTRLEN];
+    char				target_ip[INET_ADDRSTRLEN];
 
-    // Solo imprimir si es una solicitud (opcode 1)
-    if (ntohs(arp->ea_hdr.ar_op) == ARPOP_REQUEST) {
+    arp = (struct ether_arp *)(buffer + 14);
+    if (ntohs(arp->ea_hdr.ar_op) == ARPOP_REQUEST)
+    {
         inet_ntop(AF_INET, arp->arp_spa, sender_ip, sizeof(sender_ip));
         inet_ntop(AF_INET, arp->arp_tpa, target_ip, sizeof(target_ip));
-
         printf("ARP Request: Who has %s? I am %s\n", target_ip, sender_ip);
-        
-        if (ft_strcmp(target_ip, args->source_ip) == 0) {
+        print_arp_details(buffer, args->verbose);
+        if (ft_strcmp(target_ip, args->source_ip) == 0)
+        {
             printf("An ARP request has been broadcast.\n");
-            printf("mac address of request: %02x:%02x:%02x:%02x:%02x:%02x\n", 
+            printf("mac address of request: %02x:%02x:%02x:%02x:%02x:%02x\n",
                 arp->arp_sha[0], arp->arp_sha[1], arp->arp_sha[2],
                 arp->arp_sha[3], arp->arp_sha[4], arp->arp_sha[5]);
             printf("IP address of request: %s\n", sender_ip);
             printf("Now sending an ARP reply to the target address with spoofed source, please wait...\n");
-            return true; // Senal para enviar ARP reply
+            return (true);
         }
     }
-    return false;
+    return (false);
 }
 
 bool listen_arp(int sockfd, t_args *args)

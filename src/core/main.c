@@ -6,48 +6,68 @@
 /*   By: rdelicad <rdelicad@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 11:59:10 by rdelicad          #+#    #+#             */
-/*   Updated: 2025/09/07 11:27:49 by rdelicad         ###   ########.fr       */
+/*   Updated: 2025/09/07 13:05:16 by rdelicad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_malcolm.h"
 
-static void    help_menu(int ac, char **av)
+static void	help_menu(int ac, char **av)
 {
-    if (ac == 2 && (ft_strcmp(av[1], "-h") == 0 || ft_strcmp(av[1], "--help") == 0)) {
-        printf("Usage: sudo %s <source_ip> <source_mac> <target_ip> <target_mac>\n", av[0]);
-        printf("       %s -c <ip_address>  (convert IP format)\n", av[0]);
-        printf("\nARP Spoofing Arguments:\n");
-        printf("  source_ip     IP to spoof\n");
-        printf("  source_mac    Your MAC address\n"); 
-        printf("  target_ip     Target IP\n");
-        printf("  target_mac    Target MAC\n");
-        printf("\nExample:\n");
-        printf("  sudo %s 192.168.1.1 aa:bb:cc:dd:ee:ff 192.168.1.100 11:22:33:44:55:66\n", av[0]);
-        printf("  %s -c 192.168.1.1    # Convert to decimal\n", av[0]);
-        printf("  %s -c 3232235777     # Convert to dotted\n", av[0]);
-        exit(EXIT_SUCCESS);
-    }
+	if (ac == 2 && (ft_strcmp(av[1], "-h") == 0
+		|| ft_strcmp(av[1], "--help") == 0))
+	{
+		printf("Usage: sudo %s [OPTIONS] <source_ip> <source_mac> <target_ip> <target_mac>\n", av[0]);
+		printf("Options:\n");
+		printf("  -v, --verbose     Show packet details\n");
+		printf("  -c <ip>           Convert IP format\n");
+		printf("  -h, --help        Show this help\n");
+		exit(EXIT_SUCCESS);
+	}
+	if (ac == 3 && ft_strcmp(av[1], "-c") == 0)
+	{
+		convert_ip_format(av[2]);
+		exit(EXIT_SUCCESS);
+	}
+}
 
-    if (ac == 3 && ft_strcmp(av[1], "-c") == 0) {
-        convert_ip_format(av[2]);
-        exit(EXIT_SUCCESS);
-    }
+static int	check_verbose_flag(int ac, char **av)
+{
+	if (ac == 6 && (ft_strcmp(av[1], "-v") == 0
+		|| ft_strcmp(av[1], "--verbose") == 0))
+	{
+		av[1] = av[2];
+		av[2] = av[3];
+		av[3] = av[4];
+		av[4] = av[5];
+		return (1);
+	}
+	return (0);
+}
 
-    if (ac != 5) {
-        printf("Error: Invalid argumentes. Use -h for help.\n");
-        exit(EXIT_FAILURE);
-    }
+static void	validate_args(int ac, char **av)
+{
+	help_menu(ac, av);
+	if (ac != 5)
+	{
+		printf("Error: Invalid arguments. Use -h for help.\n");
+		exit(EXIT_FAILURE);
+	}
 }
 
 int main(int ac, char **av)
 {
-    char                *iface = NULL;
-    int                 sockfd = 0;
-    t_args              args = {0};
-    t_converted_args    conv = {0};
+    char                *iface;
+    int                 sockfd;
+    t_args              args;
+    t_converted_args    conv;
 
-    help_menu(ac, av);
+    ft_memset(&args, 0, sizeof(args));
+    ft_memset(&conv, 0, sizeof(conv));
+    args.verbose = check_verbose_flag(ac, av);
+	if (args.verbose)
+		ac = 5;
+	validate_args(ac, av);
     setup_signal_handler();
     parse_args(&args, av);
     convert_args_to_bytes(&args, &conv);
@@ -55,9 +75,7 @@ int main(int ac, char **av)
     iface = get_default_iface();
     if (iface)
         printf("Found available interface: %s\n", iface);
-    else
-        printf("Warning: No network intreface detected\n");
     if (listen_arp(sockfd, &args))
-        send_arp_replay(sockfd, &conv);
-    return EXIT_SUCCESS;
+        send_arp_replay(sockfd, &conv, args.verbose);
+    return (0);
 }
