@@ -6,7 +6,7 @@
 /*   By: rdelicad <rdelicad@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/07 10:52:57 by rdelicad          #+#    #+#             */
-/*   Updated: 2025/09/07 13:42:29 by rdelicad         ###   ########.fr       */
+/*   Updated: 2025/09/08 07:31:55 by rdelicad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ void validate_ip(t_args *args)
             printf("ft_malcolm: unknown host or invalid IP address: (%s).\n", args->source_ip);
             exit(EXIT_FAILURE);
         }
-    } else {
+    } else if (!is_hostname(args->source_ip)) {
         if (!is_valid_ip(args->source_ip)) {
             printf("ft_malcolm: unknown host or invalid IP address: (%s).\n", args->source_ip);
             exit(EXIT_FAILURE);
@@ -97,7 +97,7 @@ void validate_ip(t_args *args)
             printf("ft_malcolm: unknown host or invalid IP address: (%s).\n", args->target_ip);
             exit(EXIT_FAILURE);
         }
-    } else {
+    } else if (!is_hostname(args->target_ip)) {
         if (!is_valid_ip(args->target_ip)) {
             printf("ft_malcolm: unknown host or invalid IP address: (%s).\n", args->target_ip);
             exit(EXIT_FAILURE);
@@ -114,6 +114,8 @@ t_args *parse_args(t_args *args, char **av)
     
     validate_mac(args);
     validate_ip(args);
+
+    process_hostname_args(args);
 
     return args;
 }

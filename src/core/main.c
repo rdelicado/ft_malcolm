@@ -6,7 +6,7 @@
 /*   By: rdelicad <rdelicad@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 11:59:10 by rdelicad          #+#    #+#             */
-/*   Updated: 2025/09/07 13:05:16 by rdelicad         ###   ########.fr       */
+/*   Updated: 2025/09/08 07:46:36 by rdelicad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,13 @@ static void	validate_args(int ac, char **av)
 		exit(EXIT_FAILURE);
 	}
 }
+static void cleanup_args(t_args *args, char **original_av)
+{
+	if (args->source_ip != original_av[1] && args->source_ip)
+		free(args->source_ip);
+	if (args->target_ip != original_av[3] && args->target_ip)
+		free(args->target_ip);
+}
 
 int main(int ac, char **av)
 {
@@ -74,8 +81,9 @@ int main(int ac, char **av)
     sockfd = create_socket(0);
     iface = get_default_iface();
     if (iface)
-        printf("Found available interface: %s\n", iface);
+    	printf("Found available interface: %s\n", iface);
     if (listen_arp(sockfd, &args))
-        send_arp_replay(sockfd, &conv, args.verbose);
+		send_arp_replay(sockfd, &conv, args.verbose);
+	cleanup_args(&args, av);
     return (0);
 }

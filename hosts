@@ -3,5 +3,8 @@
 192.168.1.20    printer-office
 192.168.1.100   nas-storage
 
+192.168.1.10	mi-servidor
+192.168.1.20	impresora
+
 # Ahora puedes usar:
 sudo ./ft_malcolm server-local 08:00:27:52:c8:dd printer-office 08:00:27:52:c8:ee

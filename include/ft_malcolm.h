@@ -6,7 +6,7 @@
 /*   By: rdelicad <rdelicad@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/07 10:54:48 by rdelicad          #+#    #+#             */
-/*   Updated: 2025/09/07 13:08:55 by rdelicad         ###   ########.fr       */
+/*   Updated: 2025/09/08 07:43:16 by rdelicad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 #include "signals.h"
 #include "utils.h"
 #include "verbose.h"
+#include "hostname.h"
 
 #include "libft.h"
 
@@ -34,9 +35,12 @@
 #include <ifaddrs.h>
 #include <arpa/inet.h>
 #include <sys/socket.h>
-#include <linux/if_packet.h>
-#include <net/ethernet.h>
+#include <linux/if_packet.h>	// packet socket (Linux)
+#include <net/ethernet.h>		// ethernet headers	
+#include <netinet/ether.h>		// funciones ethernet
+#include <netinet/if_ether.h>	// struct ether_arp
 #include <net/if_arp.h>
-#include <netinet/if_ether.h>
+#include <netdb.h>
+
 
 #endif 
