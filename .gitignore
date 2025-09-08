@@ -3,7 +3,6 @@ ft_malcolm
 *.o
 *.out
 *.a
-*.sh
 *.txt
 
 # Carpetas de objetos
