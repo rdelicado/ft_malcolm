@@ -225,5 +225,3 @@ Nota: sustituye `eth0` por la interfaz correcta en tu equipo (por ejemplo `enp3s
 - Documenta cambios en `/etc/hosts` y revierte cuando termines.
 
 ---
-
-Si quieres que incluya ejemplos más avanzados (captura con `tcpdump`, redirección de tráfico, o integración con `iptables`) lo añado en otra sección.
