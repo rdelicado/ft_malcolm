@@ -6,10 +6,26 @@ int is_hostname(const char *str)
 
 	if (!str)
 		return 0;
+	/* If the string is a pure decimal number (e.g. 3232235777) -> not a hostname */
 	if (is_decimal_format(str))
 		return 0;
+	{
+		int has_dot = 0;
+		int only_digits_and_dots = 1;
+		for (int i = 0; str[i]; i++) {
+			if (str[i] == '.') has_dot = 1;
+			else if (!ft_isdigit(str[i])) {
+				only_digits_and_dots = 0;
+				break;
+			}
+		}
+		if (has_dot && only_digits_and_dots)
+			return 0;
+	}
+	/* If it's a valid IPv4 textual representation -> not a hostname */
 	if (inet_pton(AF_INET, str, &addr) == 1)
 		return (0);
+	/* Otherwise it's a hostname */
 	return (1);
 }
 

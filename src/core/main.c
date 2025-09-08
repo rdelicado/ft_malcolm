@@ -6,7 +6,7 @@
 /*   By: rdelicad <rdelicad@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 11:59:10 by rdelicad          #+#    #+#             */
-/*   Updated: 2025/09/08 07:46:36 by rdelicad         ###   ########.fr       */
+/*   Updated: 2025/09/08 09:11:05 by rdelicad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,11 @@ static void	help_menu(int ac, char **av)
 		printf("  -v, --verbose     Show packet details\n");
 		printf("  -c <ip>           Convert IP format\n");
 		printf("  -h, --help        Show this help\n");
+		printf("\nIP formats supported:\n");
+		printf("  - Dotted decimal: 192.168.1.1\n");
+		printf("  - Decimal number: 3232235777\n");
+		printf("  - Hostname: google.com, localhost\n");
+		printf("\nNote: Hostnames are resolved to local network IPs only.\n");
 		exit(EXIT_SUCCESS);
 	}
 	if (ac == 3 && ft_strcmp(av[1], "-c") == 0)
