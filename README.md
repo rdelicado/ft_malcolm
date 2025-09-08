@@ -7,9 +7,9 @@
 ## Uso
 
 El programa debe ejecutarse con los siguientes parámetros:
-
+```sh
 ./ft_malcolm <source_ip> <source_mac> <target_ip> <target_mac>
-
+```
 
 - `<source_ip>`: Dirección IP que quieres suplantar (en formato IPv4, ej: `192.168.1.10`)
 - `<source_mac>`: Dirección MAC que quieres suplantar (formato: `xx:xx:xx:xx:xx:xx`)
@@ -17,9 +17,9 @@ El programa debe ejecutarse con los siguientes parámetros:
 - `<target_mac>`: Dirección MAC de la víctima
 
 **Ejemplo:**
-
+```sh
 ./ft_malcolm 192.168.1.10 aa:bb:cc:dd:ee:ff 192.168.1.20 11:22:33:44:55:66
-
+```
 
 ## Funcionamiento
 
@@ -179,6 +179,38 @@ sudo sh -c 'echo "192.168.1.10 server-local" >> /etc/hosts'
 sudo sh -c 'echo "192.168.1.20 victim-local" >> /etc/hosts'
 sudo ./ft_malcolm server-local 08:00:27:52:c8:dd victim-local 08:00:27:52:c8:ee
 ```
+
+### Ejemplos con tcpdump
+
+Puedes usar `tcpdump` para verificar la actividad ARP y ver las respuestas spoof enviadas por `ft_malcolm`.
+
+- Capturar paquetes ARP en una interfaz (por ejemplo `eth0`):
+
+```sh
+sudo tcpdump -i eth0 arp -n
+```
+
+Esto mostrará solicitudes ARP (Who has ...) y respuestas (is-at ...).
+
+- Filtrar por IP objetivo para ver solo paquetes relacionados con `192.168.1.20`:
+
+```sh
+sudo tcpdump -i eth0 arp and dst host 192.168.1.20 -n
+```
+
+- Mostrar paquetes ARP con direcciones MAC legibles y marcas de tiempo:
+
+```sh
+sudo tcpdump -i eth0 -e -ttt arp -n
+```
+
+- Flujo de verificación práctico:
+   1. En una terminal ejecuta: `sudo tcpdump -i eth0 -e -ttt arp -n`
+   2. En otra terminal ejecuta: `sudo ./ft_malcolm 192.168.1.10 08:00:27:52:c8:dd 192.168.1.20 08:00:27:52:c8:ee`
+   3. Cuando llegue una ARP request para `192.168.1.20`, en `tcpdump` deberías ver la respuesta `is-at 08:00:27:52:c8:dd` enviada por `ft_malcolm`.
+
+Nota: sustituye `eth0` por la interfaz correcta en tu equipo (por ejemplo `enp3s0`, `wlan0`, etc.).
+
 
 ## Archivos relevantes (rápida referencia)
 - `src/core/main.c` — flujo principal, flags y setup de señales.
