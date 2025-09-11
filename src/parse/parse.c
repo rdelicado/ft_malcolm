@@ -6,7 +6,7 @@
 /*   By: rdelicad <rdelicad@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/07 10:52:57 by rdelicad          #+#    #+#             */
-/*   Updated: 2025/09/08 07:31:55 by rdelicad         ###   ########.fr       */
+/*   Updated: 2025/09/11 16:31:39 by rdelicad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static int  is_valid_mac(const char *mac)
 {
     char **split_mac = ft_split(mac, ':');
     if (!split_mac) {
-        printf("Memory allocation failed.");
+        ft_printf("Memory allocation failed.");
         return 0;
     }
     
@@ -66,12 +66,12 @@ bool    validate_decimal_ip(const char *ip)
 void    validate_mac(t_args *args)
 {
     if (!is_valid_mac(args->source_mac)) {
-        printf("ft_malcolm: invalid mac address: (%s)\n", args->source_mac);
+        ft_printf("ft_malcolm: invalid mac address: (%s)\n", args->source_mac);
         exit(EXIT_FAILURE);
     }
 
     if (!is_valid_mac(args->target_mac)) {
-        printf("ft_malcolm: Invalid target MAC address format: (%s)\n", args->target_mac);
+        ft_printf("ft_malcolm: Invalid target MAC address format: (%s)\n", args->target_mac);
         exit(EXIT_FAILURE);
     }
 }
@@ -81,12 +81,12 @@ void validate_ip(t_args *args)
     // Valida source_ip
     if (is_decimal_format(args->source_ip)) {
         if (!validate_decimal_ip(args->source_ip)) {
-            printf("ft_malcolm: unknown host or invalid IP address: (%s).\n", args->source_ip);
+            ft_printf("ft_malcolm: unknown host or invalid IP address: (%s).\n", args->source_ip);
             exit(EXIT_FAILURE);
         }
     } else if (!is_hostname(args->source_ip)) {
         if (!is_valid_ip(args->source_ip)) {
-            printf("ft_malcolm: unknown host or invalid IP address: (%s).\n", args->source_ip);
+            ft_printf("ft_malcolm: unknown host or invalid IP address: (%s).\n", args->source_ip);
             exit(EXIT_FAILURE);
         }
     }
@@ -94,12 +94,12 @@ void validate_ip(t_args *args)
     // Valida target_ip
     if (is_decimal_format(args->target_ip)) {
         if (!validate_decimal_ip(args->target_ip)) {
-            printf("ft_malcolm: unknown host or invalid IP address: (%s).\n", args->target_ip);
+            ft_printf("ft_malcolm: unknown host or invalid IP address: (%s).\n", args->target_ip);
             exit(EXIT_FAILURE);
         }
     } else if (!is_hostname(args->target_ip)) {
         if (!is_valid_ip(args->target_ip)) {
-            printf("ft_malcolm: unknown host or invalid IP address: (%s).\n", args->target_ip);
+            ft_printf("ft_malcolm: unknown host or invalid IP address: (%s).\n", args->target_ip);
             exit(EXIT_FAILURE);
         }
     }

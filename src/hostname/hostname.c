@@ -45,7 +45,7 @@ char *resolve_hostname(const char *hostname)
 	status = getaddrinfo(hostname, NULL, &hints, &result);
 	if (status != 0)
 	{
-		printf("ft_malcolm: cannot resolve '%s': '%s\n'", hostname, gai_strerror(status));
+		ft_printf("ft_malcolm: cannot resolve '%s': '%s\n'", hostname, gai_strerror(status));
 		return NULL;
 	}
 	// Extrae la IP
@@ -66,7 +66,7 @@ void process_hostname_args(t_args *args)
 		resolved_ip = resolve_hostname(args->source_ip);
 		if (!resolved_ip)
 			exit(EXIT_FAILURE);
-		printf("Resolved '%s' to %s\n", args->source_ip, resolved_ip);
+		ft_printf("Resolved '%s' to %s\n", args->source_ip, resolved_ip);
 		args->source_ip = resolved_ip;
 	}
 	if (is_hostname(args->target_ip))
@@ -74,7 +74,7 @@ void process_hostname_args(t_args *args)
 		resolved_ip = resolve_hostname(args->target_ip);
 		if (!resolved_ip)
 			exit(EXIT_FAILURE);
-		printf("Resolved '%s' to %s\n", args->target_ip, resolved_ip);
+		ft_printf("Resolved '%s' to %s\n", args->target_ip, resolved_ip);
 		args->target_ip = resolved_ip;
 	}
 }

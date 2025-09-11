@@ -1,62 +1,80 @@
-NAME        = libft.a
-CC          = gcc
-CFLAGS      = -Wall -Werror -Wextra -Iincludes -g
-LIB         = ar rcs
+CC = gcc
+NAME = libft.a
+CFLAGS = -Wall -Werror -Wextra -Iinclude
+LIB = ar rcs
 
-SRCS = \
-    src/ft_bzero.c src/ft_isalnum.c src/ft_isalpha.c src/ft_isascii.c src/ft_isprint.c\
-    src/ft_isdigit.c src/ft_memchr.c src/ft_memcpy.c src/ft_memset.c\
-    src/ft_strchr.c src/ft_strlcat.c src/ft_strlcpy.c src/ft_strlen.c src/ft_strncmp.c\
-    src/ft_strrchr.c src/ft_tolower.c src/ft_toupper.c src/ft_memcmp.c src/ft_strnstr.c\
-    src/ft_atoi.c src/ft_calloc.c src/ft_strdup.c src/ft_substr.c src/ft_memmove.c\
-    src/ft_strjoin.c src/ft_strtrim.c src/ft_strmapi.c src/ft_striteri.c src/ft_putchar_fd.c\
-    src/ft_putstr_fd.c src/ft_putendl_fd.c src/ft_putnbr_fd.c src/ft_itoa.c src/ft_split.c\
-	src/ft_strarrlen.c src/ft_strarrfree.c src/ft_is_hex.c src/ft_strcmp.c
+# Colors
+GREEN = \033[0;32m
+BLUE = \033[0;34m
+YELLOW = \033[1;33m
+RED = \033[0;31m
+RESET = \033[0m
+BOLD = \033[1m
 
-OBJS = $(SRCS:src/%.c=obj/%.o)
+# Directories
+SRCDIR = src
+OBJDIR = obj
+INCDIR = include
 
-BONUS_SRCS = \
-    src/ft_lstnew_bonus.c src/ft_lstadd_front_bonus.c src/ft_lstsize_bonus.c\
-    src/ft_lstlast_bonus.c src/ft_lstadd_back_bonus.c src/ft_lstdelone_bonus.c\
-    src/ft_lstclear_bonus.c src/ft_lstiter_bonus.c src/ft_lstmap_bonus.c
+# Automatically find all .c files in src and subdirectories
+SRCS = $(shell find $(SRCDIR) -name "*.c" | sort)
+OBJS = $(SRCS:$(SRCDIR)/%.c=$(OBJDIR)/%.o)
+TOTAL_FILES = $(words $(SRCS))
+CURRENT = 0
 
-BONUS_OBJS = $(BONUS_SRCS:src/%.c=obj/%.o)
+# Create list of all object directories needed
+OBJ_DIRS = $(sort $(dir $(OBJS)))
 
-# Colores e iconos
-GREEN  = \033[0;32m
-RED    = \033[0;31m
-BLUE   = \033[0;34m
-NC     = \033[0m
+all: 
+	@clear
+	@$(MAKE) $(NAME) --no-print-directory
 
-all: $(NAME)
+# Create all necessary object directories
+$(OBJ_DIRS):
+	@mkdir -p $@
+
+# Universal compilation rule for any .c file in src/
+$(OBJDIR)/%.o: $(SRCDIR)/%.c | $(OBJ_DIRS)
+	@$(call compile_file,$<,$@)
+
+# Function to compile with progress bar
+define compile_file
+	$(eval CURRENT := $(shell echo $$(($(CURRENT) + 1))))
+	$(eval PERCENT := $(shell echo $$(($(CURRENT) * 100 / $(TOTAL_FILES)))))
+	$(eval FILLED := $(shell echo $$(($(CURRENT) * 20 / $(TOTAL_FILES)))))
+	$(eval BAR := $(shell printf "%*s" $(FILLED) "" | tr ' ' '='))
+	$(eval SPACES := $(shell printf "%*s" $$((20 - $(FILLED))) ""))
+	$(eval ARROW := $(shell if [ $(FILLED) -lt 20 ]; then printf ">"; fi))
+	@if [ $(CURRENT) -eq 1 ]; then printf "\033[?25l"; fi
+	@$(CC) $(CFLAGS) -c $1 -o $2 2>/dev/null
+	@printf "\r$(BLUE)Compiling$(RESET) [$(GREEN)$(BAR)$(ARROW)$(SPACES)$(RESET)] $(YELLOW)%3d%%$(RESET) %-20s" $(PERCENT) "$(notdir $1)"
+	@if [ $(CURRENT) -eq $(TOTAL_FILES) ]; then printf "\033[?25h\n"; fi
+endef
 
 $(NAME): $(OBJS)
-	@echo "$(GREEN)[✔] Enlazando objetos...$(NC)"
+	@printf "\n$(YELLOW)Creating library:$(RESET) $(BOLD)$(NAME)$(RESET)\n"
 	@$(LIB) $(NAME) $(OBJS)
-	@echo "$(GREEN)[✔] $(NAME) creado correctamente!$(NC)"
-
-bonus: $(OBJS) $(BONUS_OBJS)
-	@echo "$(GREEN)[✔] Enlazando objetos (bonus)...$(NC)"
-	@$(LIB) $(NAME) $(OBJS) $(BONUS_OBJS)
-	@echo "$(GREEN)[✔] $(NAME) (bonus) creado correctamente!$(NC)"
-
-obj/%.o: src/%.c | obj
-	@echo "$(BLUE)[⚙] Compilando: $<$(NC)"
-	@$(CC) $(CFLAGS) -c $< -o $@
-
-obj:
-	@mkdir -p obj
-	@echo "$(BLUE)[⚙] Carpeta 'obj' creada$(NC)"
+	@printf "$(GREEN)✅ Build completed successfully!$(RESET)\n"
 
 clean:
-	@echo "$(RED)[✗] Eliminando archivos objeto...$(NC)"
-	@rm -f $(OBJS) $(BONUS_OBJS)
-	@rm -rf obj
+	@printf "$(RED)🧹 Cleaning object files...$(RESET)\n"
+	@rm -rf $(OBJDIR)
+	@printf "$(GREEN)✅ Clean completed!$(RESET)\n"
 
-fclean: clean
-	@echo "$(RED)[✗] Eliminando biblioteca $(NAME)...$(NC)"
+fclean: 
+	@clear
+	@$(MAKE) clean --no-print-directory
+	@printf "$(RED)🗑️  Removing library...$(RESET)\n"
 	@rm -f $(NAME)
+	@printf "$(GREEN)✅ Full clean completed!$(RESET)\n"
 
 re: fclean all
 
-.PHONY: all bonus re fclean clean
+# Debug rule to show what files were found
+debug:
+	@echo "Found $(words $(SRCS)) source files:"
+	@echo "$(SRCS)" | tr ' ' '\n' | nl
+	@echo "\nObject files will be:"
+	@echo "$(OBJS)" | tr ' ' '\n' | nl
+
+.PHONY: all re fclean clean debug

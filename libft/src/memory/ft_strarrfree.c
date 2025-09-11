@@ -1,38 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_atoi.c                                          :+:      :+:    :+:   */
+/*   ft_strarrfree.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rdelicad <rdelicad@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/26 13:15:39 by rdelicad          #+#    #+#             */
-/*   Updated: 2025/09/06 13:31:11 by rdelicad         ###   ########.fr       */
+/*   Created: 2025/04/06 18:36:32 by rdelicad          #+#    #+#             */
+/*   Updated: 2025/09/11 16:43:47 by rdelicad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_atoi(const char *str)
-{
-	int	num;
-	int	sign;
+/**
+ * * @brief Frees a 2D array of strings.
+ * * @param arr The 2D array to free.
+ * * @return void
+ */
 
-	sign = 1;
-	num = 0;
-	while (*str == ' ' || *str == '\t' || *str == '\r'
-		|| *str == '\v' || *str == '\n' || *str == '\f')
-		str++;
-	if (*str == '-' || *str == '+')
+void	ft_strarrfree(char **arr)
+{
+	int	i;
+
+	if (!arr)
+		return ;
+	i = 0;
+	while (arr[i])
 	{
-		if (*str == '-')
-			sign = -1;
-		str++;
+		free(arr[i]);
+		i++;
 	}
-	while (ft_isdigit(*str))
-	{
-		if (*str >= '0' && *str <= '9')
-			num = num * 10 + (*str - '0');
-		str++;
-	}
-	return (num * sign);
+	free(arr);
 }

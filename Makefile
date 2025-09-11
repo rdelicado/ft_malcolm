@@ -3,7 +3,9 @@ MAKEFLAGS += --no-print-directory
 NAME        = ft_malcolm
 CC          = gcc
 CFLAGS      = -Wall -Wextra -Werror -g
-INCLUDES    = -Iinclude/ -Ilibft/includes
+# Nota: el proyecto libft aquí usa el directorio 'include' (no 'includes').
+# Añadimos ambos por compatibilidad (si existe la variante alternativa).
+INCLUDES    = -Iinclude -Ilibft/include -Ilibft/includes
 LIBS        = # -lpcap (if additional libraries are needed)
 
 # --- Directorios --- #

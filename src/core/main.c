@@ -6,7 +6,7 @@
 /*   By: rdelicad <rdelicad@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 11:59:10 by rdelicad          #+#    #+#             */
-/*   Updated: 2025/09/08 09:11:05 by rdelicad         ###   ########.fr       */
+/*   Updated: 2025/09/11 16:31:39 by rdelicad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,16 +17,16 @@ static void	help_menu(int ac, char **av)
 	if (ac == 2 && (ft_strcmp(av[1], "-h") == 0
 		|| ft_strcmp(av[1], "--help") == 0))
 	{
-		printf("Usage: sudo %s [OPTIONS] <source_ip> <source_mac> <target_ip> <target_mac>\n", av[0]);
-		printf("Options:\n");
-		printf("  -v, --verbose     Show packet details\n");
-		printf("  -c <ip>           Convert IP format\n");
-		printf("  -h, --help        Show this help\n");
-		printf("\nIP formats supported:\n");
-		printf("  - Dotted decimal: 192.168.1.1\n");
-		printf("  - Decimal number: 3232235777\n");
-		printf("  - Hostname: google.com, localhost\n");
-		printf("\nNote: Hostnames are resolved to local network IPs only.\n");
+		ft_printf("Usage: sudo %s [OPTIONS] <source_ip> <source_mac> <target_ip> <target_mac>\n", av[0]);
+		ft_printf("Options:\n");
+		ft_printf("  -v, --verbose     Show packet details\n");
+		ft_printf("  -c <ip>           Convert IP format\n");
+		ft_printf("  -h, --help        Show this help\n");
+		ft_printf("\nIP formats supported:\n");
+		ft_printf("  - Dotted decimal: 192.168.1.1\n");
+		ft_printf("  - Decimal number: 3232235777\n");
+		ft_printf("  - Hostname: google.com, localhost\n");
+		ft_printf("\nNote: Hostnames are resolved to local network IPs only.\n");
 		exit(EXIT_SUCCESS);
 	}
 	if (ac == 3 && ft_strcmp(av[1], "-c") == 0)
@@ -55,7 +55,7 @@ static void	validate_args(int ac, char **av)
 	help_menu(ac, av);
 	if (ac != 5)
 	{
-		printf("Error: Invalid arguments. Use -h for help.\n");
+		ft_printf("Error: Invalid arguments. Use -h for help.\n");
 		exit(EXIT_FAILURE);
 	}
 }
@@ -86,7 +86,7 @@ int main(int ac, char **av)
     sockfd = create_socket(0);
     iface = get_default_iface();
     if (iface)
-    	printf("Found available interface: %s\n", iface);
+    	ft_printf("Found available interface: %s\n", iface);
     if (listen_arp(sockfd, &args))
 		send_arp_replay(sockfd, &conv, args.verbose);
 	cleanup_args(&args, av);

@@ -6,7 +6,7 @@
 /*   By: rdelicad <rdelicad@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 22:44:55 by rdelicad          #+#    #+#             */
-/*   Updated: 2025/09/07 10:55:35 by rdelicad         ###   ########.fr       */
+/*   Updated: 2025/09/11 16:31:39 by rdelicad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ volatile sig_atomic_t g_stop = 0;
 static void signal_handler(int sig)
 {
     if (sig == SIGINT) {
-        printf("  Exiting...\n");
+        ft_printf("  Exiting...\n");
         g_stop = 1;
     }
 }
@@ -29,7 +29,7 @@ void    setup_signal_handler()
     sigemptyset(&sa.sa_mask);
 
     if (sigaction(SIGINT, &sa, NULL) == -1) {
-        printf("Error setting up signal handler.\n");
+        ft_printf("Error setting up signal handler.\n");
         exit(EXIT_FAILURE);
     }
     

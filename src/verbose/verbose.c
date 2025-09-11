@@ -11,36 +11,36 @@ void	print_arp_details(const unsigned char *buffer, bool verbose)
     arp = (struct ether_arp *)(buffer + 14);
     inet_ntop(AF_INET, arp->arp_spa, sender_ip, sizeof(sender_ip));
     inet_ntop(AF_INET, arp->arp_tpa, target_ip, sizeof(target_ip));
-    printf("=== ARP PACKET DETAILS ===\n");
-    printf("Opcode: %d (%s)\n", ntohs(arp->ea_hdr.ar_op),
+    ft_printf("=== ARP PACKET DETAILS ===\n");
+    ft_printf("Opcode: %d (%s)\n", ntohs(arp->ea_hdr.ar_op),
         ntohs(arp->ea_hdr.ar_op) == 1 ? "Request" : "Reply");
-    printf("Sender: %s [%02x:%02x:%02x:%02x:%02x:%02x]\n", sender_ip,
+    ft_printf("Sender: %s [%02x:%02x:%02x:%02x:%02x:%02x]\n", sender_ip,
         arp->arp_sha[0], arp->arp_sha[1], arp->arp_sha[2],
         arp->arp_sha[3], arp->arp_sha[4], arp->arp_sha[5]);
-    printf("Target: %s [%02x:%02x:%02x:%02x:%02x:%02x]\n", target_ip,
+    ft_printf("Target: %s [%02x:%02x:%02x:%02x:%02x:%02x]\n", target_ip,
         arp->arp_tha[0], arp->arp_tha[1], arp->arp_tha[2],
         arp->arp_tha[3], arp->arp_tha[4], arp->arp_tha[5]);
-    printf("========================\n");
+    ft_printf("========================\n");
 }
 
 void	print_send_details(t_converted_args *conv, bool verbose)
 {
     if (!verbose)
         return ;
-    printf("=== SENDING ARP REPLY ===\n");
-    printf("Source MAC: %02x:%02x:%02x:%02x:%02x:%02x\n",
+    ft_printf("=== SENDING ARP REPLY ===\n");
+    ft_printf("Source MAC: %02x:%02x:%02x:%02x:%02x:%02x\n",
         conv->source_mac[0], conv->source_mac[1], conv->source_mac[2],
         conv->source_mac[3], conv->source_mac[4], conv->source_mac[5]);
-    printf("Source IP: %d.%d.%d.%d\n",
+    ft_printf("Source IP: %d.%d.%d.%d\n",
         conv->source_ip[0], conv->source_ip[1],
         conv->source_ip[2], conv->source_ip[3]);
-    printf("Target MAC: %02x:%02x:%02x:%02x:%02x:%02x\n",
+    ft_printf("Target MAC: %02x:%02x:%02x:%02x:%02x:%02x\n",
         conv->target_mac[0], conv->target_mac[1], conv->target_mac[2],
         conv->target_mac[3], conv->target_mac[4], conv->target_mac[5]);
-    printf("Target IP: %d.%d.%d.%d\n",
+    ft_printf("Target IP: %d.%d.%d.%d\n",
         conv->target_ip[0], conv->target_ip[1],
         conv->target_ip[2], conv->target_ip[3]);
-    printf("=======================\n");
+    ft_printf("=======================\n");
 }
 
 /* void	convert_ip_format(const char *ip)
@@ -51,15 +51,15 @@ void	print_send_details(t_converted_args *conv, bool verbose)
     if (is_decimal_format(ip))
     {
         decimal = decimal_to_ip(ip);
-        printf("Decimal %s = %d.%d.%d.%d\n", ip,
+        ft_printf("Decimal %s = %d.%d.%d.%d\n", ip,
             (int)((decimal >> 24) & 0xFF), (int)((decimal >> 16) & 0xFF),
             (int)((decimal >> 8) & 0xFF), (int)(decimal & 0xFF));
     }
     else
     {
         if (inet_pton(AF_INET, ip, &addr) == 1)
-            printf("IP %s = %lu\n", ip, (unsigned long)ntohl(addr.s_addr));
+            ft_printf("IP %s = %lu\n", ip, (unsigned long)ntohl(addr.s_addr));
         else
-            printf("Invalid IP format: %s\n", ip);
+            ft_printf("Invalid IP format: %s\n", ip);
     }
 } */

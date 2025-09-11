@@ -1,34 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strarrlen.c                                     :+:      :+:    :+:   */
+/*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rdelicad <rdelicad@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/06 18:09:46 by rdelicad          #+#    #+#             */
-/*   Updated: 2025/09/06 13:44:13 by rdelicad         ###   ########.fr       */
+/*   Created: 2025/09/06 13:25:10 by rdelicad          #+#    #+#             */
+/*   Updated: 2025/09/11 16:38:00 by rdelicad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-/**
- * @brief Calculates the length of a NULL-terminated array of strings.
- *
- * This function iterates through the array of strings
- * until it finds a NULL pointer,
- * counting the number of strings stored in the array.
- *
- * @param arr The array of strings to be measured.
- * @return The number of strings contained in the array.
- */
-
-size_t	ft_strarrlen(char **arr)
+int	ft_strcmp(const char *s1, const char *s2)
 {
-	size_t	i;
+	int	i;
 
 	i = 0;
-	while (arr && arr[i])
+	while (s1[i] && s1[i] == s2[i])
 		i++;
-	return (i);
+	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
 }
