@@ -6,7 +6,7 @@
 /*   By: rdelicad <rdelicad@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 22:44:55 by rdelicad          #+#    #+#             */
-/*   Updated: 2025/09/11 16:31:39 by rdelicad         ###   ########.fr       */
+/*   Updated: 2025/09/13 13:47:48 by rdelicad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ void    setup_signal_handler()
     struct sigaction sa;
     sa.sa_handler = signal_handler;
     sigemptyset(&sa.sa_mask);
+    sa.sa_flags = 0;  // Inicializar sa_flags para evitar bytes no inicializados
 
     if (sigaction(SIGINT, &sa, NULL) == -1) {
         ft_printf("Error setting up signal handler.\n");

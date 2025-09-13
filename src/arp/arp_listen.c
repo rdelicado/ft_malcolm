@@ -6,7 +6,7 @@
 /*   By: rdelicad <rdelicad@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 23:11:47 by rdelicad          #+#    #+#             */
-/*   Updated: 2025/09/11 16:31:39 by rdelicad         ###   ########.fr       */
+/*   Updated: 2025/09/13 13:55:07 by rdelicad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,13 @@ static bool	print_arp_request(t_args *args, unsigned char *buffer)
         if (ft_strcmp(target_ip, args->source_ip) == 0)
         {
             ft_printf("An ARP request has been broadcast.\n");
-            ft_printf("mac address of request: %02x:%02x:%02x:%02x:%02x:%02x\n",
-                arp->arp_sha[0], arp->arp_sha[1], arp->arp_sha[2],
-                arp->arp_sha[3], arp->arp_sha[4], arp->arp_sha[5]);
+            ft_printf("mac address of request: ");
+            for (int i = 0; i < 6; i++) {
+                if (i > 0) ft_printf(":");
+                if (arp->arp_sha[i] < 16) ft_printf("0");
+                ft_printf("%x", arp->arp_sha[i]);
+            }
+            ft_printf("\n");
             ft_printf("IP address of request: %s\n", sender_ip);
             ft_printf("Now sending an ARP reply to the target address with spoofed source, please wait...\n");
             return (true);
