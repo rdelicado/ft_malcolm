@@ -208,7 +208,12 @@ echo -e "${YELLOW}=== TESTS DE IPs INVÁLIDAS ===${NC}"
 run_test "IP con números fuera de rango" "fail" "256.1.1.1" "08:00:27:52:c8:dd" "192.168.1.2" "08:00:27:52:c8:ee"
 run_test "IP con segmento > 255" "fail" "192.300.1.1" "08:00:27:52:c8:dd" "192.168.1.2" "08:00:27:52:c8:ee"
 run_test "IP con demasiados segmentos" "fail" "192.168.1.1.1" "08:00:27:52:c8:dd" "192.168.1.2" "08:00:27:52:c8:ee"
-run_test "IP con pocos segmentos" "fail" "192.168.1" "08:00:27:52:c8:dd" "192.168.1.2" "08:00:27:52:c8:ee"
+run_test "IP con pocos segmentos (3)" "fail" "192.168.1" "08:00:27:52:c8:dd" "192.168.1.2" "08:00:27:52:c8:ee"
+run_test "IP con solo 3 segmentos (192.1.1)" "fail" "192.1.1" "08:00:27:52:c8:dd" "192.168.1.2" "08:00:27:52:c8:ee"
+run_test "IP con 2 segmentos" "fail" "192.168" "08:00:27:52:c8:dd" "192.168.1.2" "08:00:27:52:c8:ee"
+run_test "IP con solo 1 segmento" "fail" "192" "08:00:27:52:c8:dd" "192.168.1.2" "08:00:27:52:c8:ee"
+run_test "Target IP con 3 segmentos" "fail" "192.168.1.1" "08:00:27:52:c8:dd" "10.0.1" "08:00:27:52:c8:ee"
+run_test "Target IP con 2 segmentos" "fail" "192.168.1.1" "08:00:27:52:c8:dd" "172.16" "08:00:27:52:c8:ee"
 run_test "IP con segmento vacío" "fail" "192..1.1" "08:00:27:52:c8:dd" "192.168.1.2" "08:00:27:52:c8:ee"
 run_test "IP empezando con punto" "fail" ".192.168.1.1" "08:00:27:52:c8:dd" "192.168.1.2" "08:00:27:52:c8:ee"
 run_test "IP terminando con punto" "fail" "192.168.1.1." "08:00:27:52:c8:dd" "192.168.1.2" "08:00:27:52:c8:ee"
@@ -236,10 +241,10 @@ run_test "IP target vacía" "fail" "192.168.1.1" "08:00:27:52:c8:dd" "" "08:00:2
 echo -e "${YELLOW}=== TESTS DE FORMATOS MIXTOS ===${NC}"
 
 # Combinaciones de diferentes formatos válidos
-run_test "IP normal + IP decimal" "fail" "192.168.1.1" "08:00:27:52:c8:dd" "3232235778" "08:00:27:52:c8:ee"
-run_test "IP decimal + IP normal" "fail" "3232235777" "08:00:27:52:c8:dd" "192.168.1.2" "08:00:27:52:c8:ee"
-run_test "IP normal + hostname" "fail" "192.168.1.1" "08:00:27:52:c8:dd" "localhost" "08:00:27:52:c8:ee"
-run_test "Hostname + IP decimal" "fail" "localhost" "08:00:27:52:c8:dd" "3232235778" "08:00:27:52:c8:ee"
+run_test "IP normal + IP decimal" "pass" "192.168.1.1" "08:00:27:52:c8:dd" "3232235778" "08:00:27:52:c8:ee"
+run_test "IP decimal + IP normal" "pass" "3232235777" "08:00:27:52:c8:dd" "192.168.1.2" "08:00:27:52:c8:ee"
+run_test "IP normal + hostname" "pass" "192.168.1.1" "08:00:27:52:c8:dd" "localhost" "08:00:27:52:c8:ee"
+run_test "Hostname + IP decimal" "pass" "localhost" "08:00:27:52:c8:dd" "3232235778" "08:00:27:52:c8:ee"
 
 # =================
 # TESTS DE MACs INVÁLIDAS
@@ -304,7 +309,7 @@ echo -e "${YELLOW}=== TESTS DE VALIDACIÓN ADICIONAL ===${NC}"
 
 # Tests que verifican que el programa maneja bien casos límite
 run_test "IP con ceros a la izquierda" "fail" "192.168.001.001" "08:00:27:52:c8:dd" "192.168.1.2" "08:00:27:52:c8:ee"
-run_test "MAC con ceros a la izquierda válida" "fail" "192.168.1.1" "08:00:27:52:c8:dd" "192.168.1.2" "08:00:27:52:c8:ee"
+run_test "MAC con ceros a la izquierda válida" "pass" "192.168.1.1" "08:00:27:52:c8:dd" "192.168.1.2" "08:00:27:52:c8:ee"
 
 # Tests de conversión IP
 echo -e "${YELLOW}=== TESTS DE CONVERSIÓN DE IP ===${NC}"

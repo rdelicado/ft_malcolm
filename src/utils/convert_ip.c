@@ -6,7 +6,7 @@
 /*   By: rdelicad <rdelicad@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/07 10:54:03 by rdelicad          #+#    #+#             */
-/*   Updated: 2025/09/11 16:31:39 by rdelicad         ###   ########.fr       */
+/*   Updated: 2025/09/13 14:39:40 by rdelicad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void convert_ip_format(const char *ip)
     if (is_decimal_format(ip)) {
         // Decimal → Dotted
         unsigned long decimal = decimal_to_ip(ip);
-        ft_printf("Decimal %s = %d.%d.%d.%d\n", ip, 
+        printf("Decimal %s = %d.%d.%d.%d\n", ip, 
                (int)((decimal >> 24) & 0xFF),
                (int)((decimal >> 16) & 0xFF), 
                (int)((decimal >> 8) & 0xFF),
@@ -68,9 +68,9 @@ void convert_ip_format(const char *ip)
         // Dotted → Decimal  
         struct in_addr addr;
         if (inet_pton(AF_INET, ip, &addr) == 1) {
-            ft_printf("IP %s = %lu\n", ip, (unsigned long)ntohl(addr.s_addr));
+            printf("IP %s = %lu\n", ip, (unsigned long)ntohl(addr.s_addr));
         } else {
-            ft_printf("Invalid IP format: %s\n", ip);
+            printf("Invalid IP format: %s\n", ip);
         }
     }
 }

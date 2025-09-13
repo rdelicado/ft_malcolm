@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rdelicad <rdelicad@student.42.com>         +#+  +:+       +#+        */
+/*   By: rdelicad <rdelicad@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 13:54:47 by rdelicad          #+#    #+#             */
-/*   Updated: 2023/06/02 19:27:54 by rdelicad         ###   ########.fr       */
+/*   Updated: 2025/09/13 14:16:26 by rdelicad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int	print_format(char specifier, va_list ap)
 	else if (specifier == 'p')
 		cont += print_pointer(va_arg(ap, unsigned long));
 	else if (specifier == 'u')
-		cont += print_digit(va_arg(ap, unsigned int), 10, -1);
+		cont += print_digit((long)va_arg(ap, unsigned int), 10, 1);
 	else if (specifier == '%')
 		cont += write (1, &specifier, 1);
 	return (cont);

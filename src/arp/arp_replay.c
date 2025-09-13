@@ -6,7 +6,7 @@
 /*   By: rdelicad <rdelicad@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/07 10:52:23 by rdelicad          #+#    #+#             */
-/*   Updated: 2025/09/11 16:31:39 by rdelicad         ###   ########.fr       */
+/*   Updated: 2025/09/13 14:39:40 by rdelicad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,10 +60,10 @@ static int send_packet(int sockfd, t_eth_header *heth, t_arp_header *harp, t_con
     bytes_sent = sendto(sockfd, packet, sizeof(t_eth_header) + sizeof(t_arp_header),
                     0, (struct sockaddr*)&sockaddr, sizeof(sockaddr));
     if (bytes_sent < 0) {
-        ft_printf("Error sending ARP reply.\n");
+        printf("Error sending ARP reply.\n");
         return -1;
     }
-    ft_printf("Sent an ARP reply packet.\n");
+    printf("Sent an ARP reply packet.\n");
     return 0;
 }
 

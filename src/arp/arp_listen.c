@@ -6,7 +6,7 @@
 /*   By: rdelicad <rdelicad@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 23:11:47 by rdelicad          #+#    #+#             */
-/*   Updated: 2025/09/13 13:55:07 by rdelicad         ###   ########.fr       */
+/*   Updated: 2025/09/13 14:39:40 by rdelicad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static int receive_packet(int sockfd, unsigned char *buffer, size_t bufsize)
     if (packet_len < 0) {
         if (errno == EINTR)
             return 0; // Interrupted by signal
-        ft_printf("Error receiving packet: (code %d)\n", errno);
+        printf("Error receiving packet: (code %d)\n", errno);
         close(sockfd);
         return -1;
     }
@@ -39,20 +39,20 @@ static bool	print_arp_request(t_args *args, unsigned char *buffer)
     {
         inet_ntop(AF_INET, arp->arp_spa, sender_ip, sizeof(sender_ip));
         inet_ntop(AF_INET, arp->arp_tpa, target_ip, sizeof(target_ip));
-        ft_printf("ARP Request: Who has %s? I am %s\n", target_ip, sender_ip);
+        printf("ARP Request: Who has %s? I am %s\n", target_ip, sender_ip);
         print_arp_details(buffer, args->verbose);
         if (ft_strcmp(target_ip, args->source_ip) == 0)
         {
-            ft_printf("An ARP request has been broadcast.\n");
-            ft_printf("mac address of request: ");
+            printf("An ARP request has been broadcast.\n");
+            printf("mac address of request: ");
             for (int i = 0; i < 6; i++) {
-                if (i > 0) ft_printf(":");
-                if (arp->arp_sha[i] < 16) ft_printf("0");
-                ft_printf("%x", arp->arp_sha[i]);
+                if (i > 0) printf(":");
+                if (arp->arp_sha[i] < 16) printf("0");
+                printf("%x", arp->arp_sha[i]);
             }
-            ft_printf("\n");
-            ft_printf("IP address of request: %s\n", sender_ip);
-            ft_printf("Now sending an ARP reply to the target address with spoofed source, please wait...\n");
+            printf("\n");
+            printf("IP address of request: %s\n", sender_ip);
+            printf("Now sending an ARP reply to the target address with spoofed source, please wait...\n");
             return (true);
         }
     }
@@ -64,7 +64,7 @@ bool listen_arp(int sockfd, t_args *args)
     unsigned char   buffer[ETH_FRAME_LEN];
     (void)args;
 
-    ft_printf("listen ARP request...\n");
+    printf("listen ARP request...\n");
 
     while (!g_stop) 
     {
@@ -78,6 +78,6 @@ bool listen_arp(int sockfd, t_args *args)
     }
 
     close(sockfd);
-    ft_printf("Socket closed. Bye!\n");
+    printf("Socket closed. Bye!\n");
     return false;
 }
